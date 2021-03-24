@@ -32,5 +32,13 @@ namespace MyApp
                 this.DragMove();
             }
         }
+
+        private void Window_MouseOver(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
     }
 }
