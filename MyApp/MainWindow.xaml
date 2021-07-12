@@ -1,13 +1,11 @@
 ﻿<Window x:Class="MyApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MyApp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local1="clr-namespace:MyApp.UserControlWindows"
         mc:Ignorable="d"
-        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
@@ -15,46 +13,98 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{x:Null}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
-        
         MouseMove="Window_MouseOver"
-        Title="MainWindow" MinHeight="550" MinWidth="850" Width="850" Height="550" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" >
+        Title="MainWindow" MinHeight="600" MinWidth="950" MaxWidth="950" MaxHeight="650" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Width="830" Height="544" >
     <!--Click and drag mogucnost-->
     <Window.BindingGroup>
         <BindingGroup/>
     </Window.BindingGroup>
     <materialDesign:DialogHost x:Name="MainDialogHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-        <Grid>
+        <Grid  Background="#2b648c">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="36*"/>
-                <RowDefinition Height="120*"/>
-                <RowDefinition Height="119*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.ColumnSpan="1" Grid.Row="1">
-                <local1:YoutubeUser x:Name="YoutubeUser" HorizontalAlignment="Stretch" Visibility="Visible" x:FieldModifier="public" VerticalAlignment="Stretch" />
+            <!--Plan je da bude nevidljiv svaki put kada predje na UserControl, vraca se pozivom-->
+            <Grid Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="3" x:Name="User_Grid" Visibility="Collapsed">
+                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                    <local1:YoutubeUser x:Name="YoutubeUser" HorizontalAlignment="Stretch"  Visibility="Hidden" x:FieldModifier="public" VerticalAlignment="Stretch" />
+                </Grid>
+
+                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                    <local1:MusicUser x:Name="MusicUser" HorizontalAlignment="Stretch"  Visibility="Hidden" VerticalAlignment="Stretch" x:FieldModifier="public" />
+                </Grid>
+
+                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                    <local1:QuotesUser x:Name="QuotesUser" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Visibility="Hidden" x:FieldModifier="public" />
+                </Grid>
+
+                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                    <local1:MoviesUser x:Name="MoviesUser" VerticalAlignment="Stretch" Margin="-6,7,-3,-2" HorizontalAlignment="Stretch" Visibility="Hidden" x:FieldModifier="public" Background="#FFBB6363" />
+                </Grid>
             </Grid>
 
-            <Grid Grid.Column="2"  Grid.Row="1">
-                <local1:MusicUser x:Name="MusicUser" HorizontalAlignment="Stretch" Visibility="Visible" VerticalAlignment="Stretch" x:FieldModifier="public" />
+            <!--Ideja tranzicije imitirajuci talase, krecu tranzicije od lokacije klika, 1 za prekrivanje quotesgrid ; 2 za prikaz usergrid-->
+            <Grid Grid.ColumnSpan="2" Grid.Row="1" x:Name="Items_Grid" Grid.RowSpan="3" Visibility="Visible">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10px"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10px"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <materialDesign:ColorZone Grid.Row="1" Grid.ColumnSpan="3" Padding="20"  Mode="Standard" Background="#1f354f" BorderBrush="Transparent" Margin="1,0"  >
+                </materialDesign:ColorZone>
+
+                <materialDesign:ColorZone Grid.RowSpan="3" Grid.Column="1" Padding="20"  Mode="Standard" Background="#1f354f" BorderBrush="Transparent" VerticalAlignment="Stretch" Margin="0,0,0,1"  >
+                </materialDesign:ColorZone>
+
+                <Grid Grid.ColumnSpan="1" Grid.Row="1">
+                </Grid>
+
+                <Grid Grid.Column="2"  Grid.Row="1">
+                </Grid>
+
+                <Grid Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1,0,0,1" >
+                    <Image 
+                          x:Name="timokSlika" Source="images/qback3.png"
+                          Visibility="Visible" Stretch="Fill" />
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,70" Width="150">
+                        <Button
+                            Click="Quotes_Click"
+                            Background="#1c1c1c"
+                            BorderThickness="0"
+                            materialDesign:ButtonAssist.CornerRadius="5"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            Width="150"
+                            ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                            quotes
+                        </Button>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="1" >
+                </Grid>
             </Grid>
 
-            <Grid Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="2" >
-                <local1:QuotesUser x:Name="QuotesUser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Visibility="Visible" x:FieldModifier="public" />
-            </Grid>
 
-            <Grid Grid.Row="2" Grid.Column="1" >
-                <local1:MoviesUser x:Name="MoviesUser" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Visible" x:FieldModifier="public" Background="#FFBB6363" />
-            </Grid>
 
-            <materialDesign:DrawerHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Grid.ColumnSpan="3"   Grid.RowSpan="4">
+
+            <materialDesign:DrawerHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="-2,-2,-3,-2.429" >
                 <materialDesign:DrawerHost.LeftDrawerContent>
-                    <StackPanel Margin="0" Background="#FF601DD4">
+                    <StackPanel Margin="0" >
                         <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                                   ToolTip="Zatvaranje trenutnog menija"
                                   Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
@@ -63,14 +113,14 @@
                                   HorizontalAlignment="Right" Margin="20"
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
 
-                        <Menu Background="#FF601DD4">
+                        <Menu >
                             <MenuItem Header="Početna" Width="230" Name="Home" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" >
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="Home"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </Menu>
-                        <Menu Background="#FF601DD4">
+                        <Menu >
                             <MenuItem Header="Vinograd" Width="230" Name="Vineyard"  HorizontalAlignment="Center" >
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="ViewList"/>
@@ -103,7 +153,7 @@
                                 </MenuItem >
                             </MenuItem>
                         </Menu>
-                        <Menu Background="#FF601DD4">
+                        <Menu >
                             <MenuItem x:Name="pvd" Header="P.V.D" ToolTip="Prozivodnja vina i destilacija" Width="230" HorizontalAlignment="Center">
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="ViewList"/>
@@ -113,7 +163,7 @@
                                 </MenuItem>
                             </MenuItem>
                         </Menu>
-                        <Menu Background="#FF601DD4">
+                        <Menu >
                             <MenuItem x:Name="poDru" Header="Podrum" Width="230">
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="ViewList"/>
@@ -123,14 +173,14 @@
                                 </MenuItem>
                             </MenuItem>
                         </Menu>
-                        <Menu Background="#FF601DD4">
+                        <Menu >
                             <MenuItem Header="HACCP" ToolTip="HACCP sertifikat" Width="230" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" >
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="ViewList"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                         </Menu>
-                        <Menu Background="#FF601DD4">
+                        <Menu>
                             <MenuItem x:Name="Logistika" Header="Logistika" Width="230" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" >
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="ViewList"/>
@@ -141,35 +191,30 @@
                 </materialDesign:DrawerHost.LeftDrawerContent>
 
                 <Grid MinWidth="480" MinHeight="480">
-                    <DockPanel Grid.RowSpan="1" Grid.ColumnSpan="1">
-                        <materialDesign:ColorZone Padding="20" materialDesign:ShadowAssist.ShadowDepth="Depth3" Mode="Standard" DockPanel.Dock="Top" Background="#e3c500" BorderBrush="Transparent" Height="79" Margin="0,0,-2,0">
-                            <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="9" Background="#e3c500">
+                    <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="2">
+                        <materialDesign:ColorZone  Padding="20" materialDesign:ShadowAssist.ShadowDepth="Depth3" Mode="Standard" DockPanel.Dock="Top" BorderBrush="Transparent" Height="86"  >
+                            <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="9" >
                                 <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
                                   ToolTip="Odabir poslova"
-                                  Foreground="#cc3d00"
                                   x:Name="MenuToggleButton"
                                   Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                                   CommandParameter="{x:Static Dock.Left}" />
 
-                                <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" ToolTip="Više opcija" Background="#FF601DD4" Foreground="#cc3d00" >
-                                    <StackPanel Width="150" Background="#FF601DD4">
-                                        <Button x:Name="pomoc" Content="Pomoc" Background="#FF601DD4"/>
-                                        <Button Content="Odjavljivanje"  Background="#FF601DD4"/>
+                                <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" ToolTip="Više opcija"  >
+                                    <StackPanel Width="150" >
+                                        <Button x:Name="pomoc" Content="Pomoc"/>
+                                        <Button Content="Odjavljivanje"  />
                                         <Separator/>
-                                        <Button Content="Izlaz" Name="popUpIzlaz"  Background="#FF601DD4"/>
+                                        <Button Content="Izlaz" Name="popUpIzlaz"/>
                                     </StackPanel>
                                 </materialDesign:PopupBox>
-                                <TextBlock x:Name="header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="TimesNewRoman" TextBlock.Foreground="#cc3d00" FontSize="22">CHIIIIIIL ZONE</TextBlock>
+                                <TextBlock x:Name="header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="TimesNewRoman"  FontSize="22">CHIIIIIIL ZONE</TextBlock>
 
                             </DockPanel>
                         </materialDesign:ColorZone>
                     </DockPanel>
                 </Grid>
             </materialDesign:DrawerHost>
-
-
-
         </Grid>
     </materialDesign:DialogHost>
-
 </Window>

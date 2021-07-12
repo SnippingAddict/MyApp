@@ -23,6 +23,11 @@ namespace MyApp
         public MainWindow()
         {
             InitializeComponent();
+
+            YoutubeUser.Visibility = Visibility.Hidden;
+            MoviesUser.Visibility = Visibility.Hidden;
+            QuotesUser.Visibility = Visibility.Hidden;
+            MusicUser.Visibility = Visibility.Hidden;
         }
 
         private void ColorZone_MouseOver(object sender, MouseEventArgs e)
@@ -39,6 +44,14 @@ namespace MyApp
             {
                 this.DragMove();
             }
+        }
+
+        private void Quotes_Click(object sender, RoutedEventArgs e)
+        {
+            User_Grid.Visibility = Visibility.Visible;
+            QuotesUser.Visibility = Visibility.Visible;
+
+            Items_Grid.Visibility = Visibility.Collapsed;
         }
     }
 }
