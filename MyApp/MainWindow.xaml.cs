@@ -53,5 +53,13 @@ namespace MyApp
 
             Items_Grid.Visibility = Visibility.Collapsed;
         }
+
+        private void Youtube_Click(object sender, RoutedEventArgs e)
+        {
+            YoutubeUser.Visibility = Visibility.Visible;
+
+            User_Grid.Visibility = Visibility.Visible;
+            Items_Grid.Visibility = Visibility.Collapsed;
+        }
     }
 }

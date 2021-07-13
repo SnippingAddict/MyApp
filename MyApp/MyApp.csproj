@@ -147,9 +147,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\quote_background.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
@@ -162,10 +159,19 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\quote_background2.png" />
+    <Resource Include="images\qback3.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\qback3.png" />
+    <Resource Include="images\ytbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ytplaybutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\neonback.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\musicback.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />
