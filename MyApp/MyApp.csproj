@@ -72,6 +72,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.2.0.0\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -159,19 +162,41 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\qback3.png" />
+    <Resource Include="images\UserGrid\qback3.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\ytbutton.png" />
+    <Resource Include="images\UserGrid\ytbutton.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\ytplaybutton.png" />
+    <Resource Include="images\UserGrid\ytplaybutton.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\neonback.jpg" />
+    <Resource Include="images\UserGrid\neonback.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\musicback.png" />
+    <Resource Include="images\UserGrid\backMusic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UserGrid\musicback.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UserGrid\movieback.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Gifs\moviegifback.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Gifs\ytBack.gif" />
+    <Resource Include="images\Gifs\ytBack1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UserGrid\movieQuote.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UserGrid\movieQuote1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UserGrid\movieQuote0.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />

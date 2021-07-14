@@ -13,6 +13,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{x:Null}"
         FontFamily="{DynamicResource MaterialDesignFont}"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         MouseMove="Window_MouseOver"
         Title="MainWindow" MinHeight="600" MinWidth="950" MaxWidth="950" MaxHeight="650" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Width="830" Height="544" >
     <!--Click and drag mogucnost-->
@@ -72,24 +73,44 @@
                 </materialDesign:ColorZone>
 
                 <Grid Grid.ColumnSpan="1" Background="#f0f0f0" Grid.Row="0" Margin="1,0,0,0">
-                    <Image Source="images/neonback.jpg" Stretch="Fill"></Image>
-                    <Grid Width="150" Height="110">
-                        <Image Source="images/ytbutton.png"></Image>
-                        <Button Height="150"
+                    <Image gif:ImageBehavior.AnimatedSource="images/Gifs/ytBack.gif" Stretch="Fill"></Image>
+                    <Border Width="150" Height="100" CornerRadius="100">
+                        <Grid Width="150" Height="100">
+                            <Image Source="images/UserGrid/ytbutton.png"></Image>
+                            <Button Height="Auto"
                                 Background="Transparent" 
                                 Click="Youtube_Click"
-                                BorderThickness="0">
+                                BorderThickness="0"
+                                ToolTip="Switch to Youtube">
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--3.79-->
+                <Grid Grid.Column="2"  Grid.Row="0" Margin="0,0,1,0">
+                    <Image Source="images/UserGrid/musicback.png" Stretch="Fill"></Image>
+                    <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="100" Height="70" Margin="30,0,0,90">
+                        <Button Height="70"
+                                Width="70"
+                                Background="#1c5a8c"
+                                BorderThickness="0"
+                                BorderBrush="Transparent"
+                                Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+                                materialDesign:ButtonAssist.CornerRadius="5"
+                                Click="Music_Click"
+                                >
+                            <materialDesign:PackIcon
+                                Kind="Music"
+                                Height="30"
+                                Width="30"/>
                         </Button>
                     </Grid>
                 </Grid>
 
-                <Grid Grid.Column="2"  Grid.Row="0" Margin="0,0,1,0">
-                    <Image Source="images/musicback.png" Stretch="Fill"></Image>
-                </Grid>
-
                 <Grid Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1,0,0,1" >
                     <Image 
-                          x:Name="timokSlika" Source="images/qback3.png"
+                          x:Name="timokSlika" Source="images/UserGrid/qback3.png"
                           Visibility="Visible" Stretch="Fill" />
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,70" Width="150">
                         <Button
@@ -99,17 +120,27 @@
                             materialDesign:ButtonAssist.CornerRadius="5"
                             Style="{StaticResource MaterialDesignRaisedDarkButton}"
                             Width="150"
-                            ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                            ToolTip="Switch to Quotes">
                             quotes
                         </Button>
                     </Grid>
                 </Grid>
 
-                <Grid Grid.Row="2" Grid.Column="1" >
+                <Grid Grid.Row="2" Grid.Column="2" >
+                    <Image Stretch="Fill" gif:ImageBehavior.AnimatedSource="images/Gifs/moviegifback.gif" />
+                    <Image Width="400" Source="images/UserGrid/moviequote.png" Margin="0, 90, 0, 0" VerticalAlignment="Top"/>
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="130">
+                        <Button Margin="0,0,0,60"
+                                BorderThickness="0"
+                                Width="120"
+                                Height="35"
+                                materialDesign:ButtonAssist.CornerRadius="5"
+                                Background="#1b4021"
+                                Content="movies"
+                            />
+                    </Grid>
                 </Grid>
             </Grid>
-
-
 
 
             <materialDesign:DrawerHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="-2,-2,-3,-2.429" >
