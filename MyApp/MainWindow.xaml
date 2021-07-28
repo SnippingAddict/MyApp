@@ -73,6 +73,7 @@
                 </materialDesign:ColorZone>
 
                 <Grid Grid.ColumnSpan="1" Background="#f0f0f0" Grid.Row="0" Margin="1,0,0,0">
+                    <!-- Zamena sa MediaElement, sranje gif biblioteka koristi veliku kolicinu ram memorije, druga verzija konstaaaaantno koristi garbage collector i zestoko usporava aplikaciju -->
                     <Image gif:ImageBehavior.AnimatedSource="images/Gifs/ytBack.gif" Stretch="Fill"></Image>
                     <Border Width="150" Height="100" CornerRadius="100">
                         <Grid Width="150" Height="100">
