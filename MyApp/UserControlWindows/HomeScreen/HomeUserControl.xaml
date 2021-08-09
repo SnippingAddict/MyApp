@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="MyApp.UserControlWindows.HomeScreen.HomeUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyApp.UserControlWindows.HomeScreen" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local1="clr-namespace:MyApp.UserControlWindows"
+             mc:Ignorable="d" 
+             d:DesignHeight="514" d:DesignWidth="950"
+             Background="AntiqueWhite">
+    <Grid>
+        <materialDesign:Transitioner VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="textTransition" SelectedIndex="0" AutoApplyTransitionOrigins="True">
+            <ItemsControl>
+                <materialDesign:TransitioningContent OpeningEffectsOffset="{materialDesign:IndexedItemOffsetMultiplier 0:0:0.005}">
+                    <materialDesign:TransitioningContent.OpeningEffects>
+                        <materialDesign:TransitionEffect Kind="FadeIn"/>
+                    </materialDesign:TransitioningContent.OpeningEffects>
+                    <TextBlock Text="Welcome back Nikola" FontSize="50" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </materialDesign:TransitioningContent>
+            </ItemsControl>
+        </materialDesign:Transitioner>
+    </Grid>
+    
+</UserControl>

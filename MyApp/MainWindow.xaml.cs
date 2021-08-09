@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
+using System.IO;
 
 namespace MyApp
 {
@@ -22,17 +23,24 @@ namespace MyApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static Timer aTimer;
 
         public MainWindow()
         {
             //possible three milisecond load after button click for usercontrol switch
             InitializeComponent();
 
+            gifInitialization();
+
             YoutubeUser.Visibility = Visibility.Hidden;
             MoviesUser.Visibility = Visibility.Hidden;
             QuotesUser.Visibility = Visibility.Hidden;
             MusicUser.Visibility = Visibility.Hidden;
+        }
+
+        private void gifInitialization()
+        {
+            ytGif.Source = new Uri(Environment.CurrentDirectory + @"\ytBack.gif");
+            movieGif.Source = new Uri(Environment.CurrentDirectory + @"\moviegifback.gif");
         }
 
         private void ColorZone_MouseOver(object sender, MouseEventArgs e)
@@ -60,6 +68,8 @@ namespace MyApp
         private void Youtube_Click(object sender, RoutedEventArgs e)
         {
             YoutubeUser.Visibility = Visibility.Visible;
+            ytGif.Visibility = Visibility.Collapsed;
+            movieGif.Visibility = Visibility.Collapsed;
             switchGrid();
         }
 
@@ -73,6 +83,22 @@ namespace MyApp
         {
             User_Grid.Visibility = Visibility.Visible;
             Items_Grid.Visibility = Visibility.Collapsed;
+        }
+
+        private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            ytGif.Position = TimeSpan.FromMilliseconds(1);
+            movieGif.Position = TimeSpan.FromMilliseconds(1);
+
+            //var videoPath = Environment.CurrentDirectory;
+            //string projectDirectory = Directory.GetParent(videoPath).Parent.Parent.FullName;
+            //ytGif.Source = new Uri(projectDirectory + @"images\Gifs\ytBack.gif", UriKind.Absolute);
+            //ytTextBlock.Text = projectDirectory;
+        }
+
+        private void popUpIzlaz_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

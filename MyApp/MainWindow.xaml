@@ -5,6 +5,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local1="clr-namespace:MyApp.UserControlWindows"
+        xmlns:HomeScreen = "clr-namespace:MyApp.UserControlWindows.HomeScreen"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -13,8 +14,9 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{x:Null}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         MouseMove="Window_MouseOver"
+        xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
         Title="MainWindow" MinHeight="600" MinWidth="950" MaxWidth="950" MaxHeight="650" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Width="830" Height="544" >
     <!--Click and drag mogucnost-->
     <Window.BindingGroup>
@@ -33,6 +35,10 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
 
+            <Grid Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan='3' x:Name="Home_Grid" Visibility="Visible">
+                <HomeScreen:HomeUserControl x:Name="homeUser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible"/>
+            </Grid>
+            
             <!--Plan je da bude nevidljiv svaki put kada predje na UserControl, vraca se pozivom-->
             <Grid Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="3" x:Name="User_Grid" Visibility="Collapsed">
                 <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
@@ -53,7 +59,7 @@
             </Grid>
 
             <!--Ideja tranzicije imitirajuci talase, krecu tranzicije od lokacije klika, 1 za prekrivanje quotesgrid ; 2 za prikaz usergrid-->
-            <Grid Grid.ColumnSpan="2" Grid.Row="1" x:Name="Items_Grid" Grid.RowSpan="3" Visibility="Visible">
+            <Grid Grid.ColumnSpan="2" Grid.Row="1" x:Name="Items_Grid" Grid.RowSpan="3" Visibility="Collapsed">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -73,8 +79,34 @@
                 </materialDesign:ColorZone>
 
                 <Grid Grid.ColumnSpan="1" Background="#f0f0f0" Grid.Row="0" Margin="1,0,0,0">
-                    <!-- Zamena sa MediaElement, sranje gif biblioteka koristi veliku kolicinu ram memorije, druga verzija konstaaaaantno koristi garbage collector i zestoko usporava aplikaciju -->
-                    <Image gif:ImageBehavior.AnimatedSource="images/Gifs/ytBack.gif" Stretch="Fill"></Image>
+                    <!-- Problem je prevelika potrosnja ram memorije, izbaciti gif ili naci drugo resenje za animirane pozadine -->
+                    <MediaElement Stretch="Fill"
+                                  x:Name="ytGif"
+                                  LoadedBehavior="Play"
+                                  MediaEnded="MediaElement_MediaEnded"
+                                  Visibility="Visible"/>
+                    <TextBlock x:Name="ytTextBlock" 
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Margin="70,0,0,0"
+                               Width="100"
+                               Height="50"
+                               Text="You"
+                               TextAlignment="Center"
+                               FontSize="40"
+                               FontFamily="Comic Sans SM"
+                               Foreground="#fa3299"/>
+                    <TextBlock x:Name="ytTextBlock1" 
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"
+                               Margin="0,0,60,0"
+                               Width="100"
+                               Height="50"
+                               Text="Tube"
+                               TextAlignment="Center"
+                               FontSize="40"
+                               FontFamily="Comic Sans SM"
+                               Foreground="#035efc"/>
                     <Border Width="150" Height="100" CornerRadius="100">
                         <Grid Width="150" Height="100">
                             <Image Source="images/UserGrid/ytbutton.png"></Image>
@@ -128,7 +160,11 @@
                 </Grid>
 
                 <Grid Grid.Row="2" Grid.Column="2" >
-                    <Image Stretch="Fill" gif:ImageBehavior.AnimatedSource="images/Gifs/moviegifback.gif" />
+                    <MediaElement Stretch="Fill"
+                                  x:Name="movieGif"
+                                  LoadedBehavior="Play"
+                                  MediaEnded="MediaElement_MediaEnded"
+                                  Visibility="Visible"/>
                     <Image Width="400" Source="images/UserGrid/moviequote.png" Margin="0, 90, 0, 0" VerticalAlignment="Top"/>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="130">
                         <Button Margin="0,0,0,60"
@@ -137,12 +173,10 @@
                                 Height="35"
                                 materialDesign:ButtonAssist.CornerRadius="5"
                                 Background="#1b4021"
-                                Content="movies"
-                            />
+                                Content="movies"/>
                     </Grid>
                 </Grid>
             </Grid>
-
 
             <materialDesign:DrawerHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="-2,-2,-3,-2.429" >
                 <materialDesign:DrawerHost.LeftDrawerContent>
@@ -247,11 +281,10 @@
                                         <Button x:Name="pomoc" Content="Pomoc"/>
                                         <Button Content="Odjavljivanje"  />
                                         <Separator/>
-                                        <Button Content="Izlaz" Name="popUpIzlaz"/>
+                                        <Button Content="Izlaz" Name="popUpIzlaz" Click="popUpIzlaz_Click"/>
                                     </StackPanel>
                                 </materialDesign:PopupBox>
-                                <TextBlock x:Name="header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="TimesNewRoman"  FontSize="22">CHIIIIIIL ZONE</TextBlock>
-
+                                <TextBlock x:Name="header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="TimesNewRoman"  FontSize="22">MaiApp</TextBlock>
                             </DockPanel>
                         </materialDesign:ColorZone>
                     </DockPanel>
