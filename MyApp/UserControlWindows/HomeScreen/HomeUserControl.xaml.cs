@@ -40,7 +40,7 @@ namespace MyApp.UserControlWindows.HomeScreen
         //    DispatcherOperation op = Dispatcher.BeginInvoke((Action)(() =>
         //    {
         //        welcomeText.Text = "Welcome back Nikola";
-                
+
         //    }));
 
         //}

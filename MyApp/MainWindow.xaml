@@ -14,14 +14,20 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{x:Null}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         MouseMove="Window_MouseOver"
         xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
+        xmlns:localSwitch="clr-namespace:MyApp.UserControlWindows.Entertainment"
         Title="MainWindow" MinHeight="600" MinWidth="950" MaxWidth="950" MaxHeight="650" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Width="830" Height="544" >
+    
     <!--Click and drag mogucnost-->
     <Window.BindingGroup>
         <BindingGroup/>
     </Window.BindingGroup>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    
     <materialDesign:DialogHost x:Name="MainDialogHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
         <Grid  Background="#2b648c">
@@ -35,148 +41,69 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan='3' x:Name="Home_Grid" Visibility="Visible">
-                <HomeScreen:HomeUserControl x:Name="homeUser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible"/>
+            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan='3'>
+                <materialDesign:Transitioner VerticalAlignment="Center"
+                                             HorizontalAlignment="Center"
+                                             x:Name="textTransition"
+                                             SelectedIndex="0"
+                                             AutoApplyTransitionOrigins="True">
+                    <Grid>
+                        <HomeScreen:HomeUserControl x:Name="homeUser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Visible"/>
+                    </Grid>
+                    
+                    <materialDesign:TransitionerSlide>
+                        <materialDesign:TransitionerSlide.BackwardWipe>
+                            <materialDesign:CircleWipe/>
+                        </materialDesign:TransitionerSlide.BackwardWipe>
+                        <materialDesign:TransitionerSlide.ForwardWipe>
+                            <materialDesign:SlideWipe Direction="Right"/>
+                        </materialDesign:TransitionerSlide.ForwardWipe>
+                        <localSwitch:SwitchUser x:Name="userSwitch" />
+                    </materialDesign:TransitionerSlide>
+                    
+                    <materialDesign:TransitionerSlide>
+                        <materialDesign:TransitionerSlide.BackwardWipe>
+                            <materialDesign:CircleWipe/>
+                        </materialDesign:TransitionerSlide.BackwardWipe>
+                        <materialDesign:TransitionerSlide.ForwardWipe>
+                            <materialDesign:SlideWipe Direction="Right"/>
+                        </materialDesign:TransitionerSlide.ForwardWipe>
+                        <Grid 
+                              x:Name="testGrid">
+                            <Button Width="150" Height="100"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Content="Idemo testing"/>
+                        </Grid>
+                        </materialDesign:TransitionerSlide>
+                </materialDesign:Transitioner>
             </Grid>
             
-            <!--Plan je da bude nevidljiv svaki put kada predje na UserControl, vraca se pozivom-->
-            <Grid Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="3" x:Name="User_Grid" Visibility="Collapsed">
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:YoutubeUser x:Name="YoutubeUser" HorizontalAlignment="Stretch"  Visibility="Hidden" x:FieldModifier="public" VerticalAlignment="Stretch" />
-                </Grid>
+            <!--<Button Grid.Column="0" 
+                    Grid.ColumnSpan="2" 
+                    Grid.Row="1" 
+                    Grid.RowSpan='3'
+                    VerticalAlignment="Center"
+                    Width="50"
+                    Height="50"
+                    Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"
+                    HorizontalAlignment="Center"/>-->
 
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:MusicUser x:Name="MusicUser" HorizontalAlignment="Stretch"  Visibility="Hidden" VerticalAlignment="Stretch" x:FieldModifier="public" />
-                </Grid>
-
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:QuotesUser x:Name="QuotesUser" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Visibility="Hidden" x:FieldModifier="public" />
-                </Grid>
-
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:MoviesUser x:Name="MoviesUser" VerticalAlignment="Stretch" Margin="-6,7,-3,-2" HorizontalAlignment="Stretch" Visibility="Hidden" x:FieldModifier="public" Background="#FFBB6363" />
-                </Grid>
+            <!--<Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                <local1:YoutubeUser x:Name="YoutubeUser" HorizontalAlignment="Stretch" Visibility="Hidden" x:FieldModifier="public" VerticalAlignment="Stretch" />
             </Grid>
 
-            <!--Ideja tranzicije imitirajuci talase, krecu tranzicije od lokacije klika, 1 za prekrivanje quotesgrid ; 2 za prikaz usergrid-->
-            <Grid Grid.ColumnSpan="2" Grid.Row="1" x:Name="Items_Grid" Grid.RowSpan="3" Visibility="Collapsed">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="10px"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="10px"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-
-                <materialDesign:ColorZone Grid.Row="1" Grid.ColumnSpan="3" Padding="20"  Mode="Standard" Background="#1f354f" BorderBrush="Transparent" Margin="1,0"  >
-                </materialDesign:ColorZone>
-
-                <materialDesign:ColorZone Grid.RowSpan="3" Grid.Column="1" Padding="20"  Mode="Standard" Background="#1f354f" BorderBrush="Transparent" VerticalAlignment="Stretch" Margin="0,0,0,1"  >
-                </materialDesign:ColorZone>
-
-                <Grid Grid.ColumnSpan="1" Background="#f0f0f0" Grid.Row="0" Margin="1,0,0,0">
-                    <!-- Problem je prevelika potrosnja ram memorije, izbaciti gif ili naci drugo resenje za animirane pozadine -->
-                    <MediaElement Stretch="Fill"
-                                  x:Name="ytGif"
-                                  LoadedBehavior="Play"
-                                  MediaEnded="MediaElement_MediaEnded"
-                                  Visibility="Visible"/>
-                    <TextBlock x:Name="ytTextBlock" 
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Margin="70,0,0,0"
-                               Width="100"
-                               Height="50"
-                               Text="You"
-                               TextAlignment="Center"
-                               FontSize="40"
-                               FontFamily="Comic Sans SM"
-                               Foreground="#fa3299"/>
-                    <TextBlock x:Name="ytTextBlock1" 
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Right"
-                               Margin="0,0,60,0"
-                               Width="100"
-                               Height="50"
-                               Text="Tube"
-                               TextAlignment="Center"
-                               FontSize="40"
-                               FontFamily="Comic Sans SM"
-                               Foreground="#035efc"/>
-                    <Border Width="150" Height="100" CornerRadius="100">
-                        <Grid Width="150" Height="100">
-                            <Image Source="images/UserGrid/ytbutton.png"></Image>
-                            <Button Height="Auto"
-                                Background="Transparent" 
-                                Click="Youtube_Click"
-                                BorderThickness="0"
-                                ToolTip="Switch to Youtube">
-                            </Button>
-                        </Grid>
-                    </Border>
-                </Grid>
-
-                <!--3.79-->
-                <Grid Grid.Column="2"  Grid.Row="0" Margin="0,0,1,0">
-                    <Image Source="images/UserGrid/musicback.png" Stretch="Fill"></Image>
-                    <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="100" Height="70" Margin="30,0,0,90">
-                        <Button Height="70"
-                                Width="70"
-                                Background="#1c5a8c"
-                                BorderThickness="0"
-                                BorderBrush="Transparent"
-                                Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
-                                materialDesign:ButtonAssist.CornerRadius="5"
-                                Click="Music_Click"
-                                >
-                            <materialDesign:PackIcon
-                                Kind="Music"
-                                Height="30"
-                                Width="30"/>
-                        </Button>
-                    </Grid>
-                </Grid>
-
-                <Grid Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1,0,0,1" >
-                    <Image 
-                          x:Name="timokSlika" Source="images/UserGrid/qback3.png"
-                          Visibility="Visible" Stretch="Fill" />
-                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,70" Width="150">
-                        <Button
-                            Click="Quotes_Click"
-                            Background="#1c1c1c"
-                            BorderThickness="0"
-                            materialDesign:ButtonAssist.CornerRadius="5"
-                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            Width="150"
-                            ToolTip="Switch to Quotes">
-                            quotes
-                        </Button>
-                    </Grid>
-                </Grid>
-
-                <Grid Grid.Row="2" Grid.Column="2" >
-                    <MediaElement Stretch="Fill"
-                                  x:Name="movieGif"
-                                  LoadedBehavior="Play"
-                                  MediaEnded="MediaElement_MediaEnded"
-                                  Visibility="Visible"/>
-                    <Image Width="400" Source="images/UserGrid/moviequote.png" Margin="0, 90, 0, 0" VerticalAlignment="Top"/>
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="130">
-                        <Button Margin="0,0,0,60"
-                                BorderThickness="0"
-                                Width="120"
-                                Height="35"
-                                materialDesign:ButtonAssist.CornerRadius="5"
-                                Background="#1b4021"
-                                Content="movies"/>
-                    </Grid>
-                </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                <local1:MusicUser x:Name="MusicUser" HorizontalAlignment="Stretch"  Visibility="Hidden" VerticalAlignment="Stretch" x:FieldModifier="public" />
             </Grid>
+
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                <local1:QuotesUser x:Name="QuotesUser" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Visibility="Hidden" x:FieldModifier="public" />
+            </Grid>
+
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                <local1:MoviesUser x:Name="MoviesUser" VerticalAlignment="Stretch" Margin="-6,7,-3,-2" HorizontalAlignment="Stretch" Visibility="Hidden" x:FieldModifier="public" Background="#FFBB6363" />
+            </Grid>-->
 
             <materialDesign:DrawerHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="-2,-2,-3,-2.429" >
                 <materialDesign:DrawerHost.LeftDrawerContent>
@@ -278,7 +205,6 @@
 
                                 <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" ToolTip="Više opcija"  >
                                     <StackPanel Width="150" >
-                                        <Button x:Name="pomoc" Content="Pomoc"/>
                                         <Button Content="Odjavljivanje"  />
                                         <Separator/>
                                         <Button Content="Izlaz" Name="popUpIzlaz" Click="popUpIzlaz_Click"/>
