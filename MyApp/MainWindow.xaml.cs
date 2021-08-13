@@ -17,6 +17,9 @@ using System.Runtime.CompilerServices;
 using System.IO;
 using System.ComponentModel;
 using MyApp.UserControlWindows.Entertainment;
+using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf.Transitions;
+using System.Diagnostics;
 
 namespace MyApp
 {
@@ -25,46 +28,57 @@ namespace MyApp
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public readonly SwitchUser sw = new SwitchUser();
-        public MainWindow()
+
+
+        public static Visibility checkEntertainment;
+        public static Visibility checkEntertainment1;
+
+
+        bool quote = false;
+        bool movie = false;
+        bool music = false;
+        bool youtube = false;
+
+        //public int Counter
+        //{
+        //    get;
+        //    set;
+        //}
+
+        public int Counter
         {
-            //possible three milisecond load after button click for usercontrol switch
-            InitializeComponent();
-
-            //MoviesUser.Visibility = Visibility.Hidden;
-            //QuotesUser.Visibility = Visibility.Hidden;
-            //MusicUser.Visibility = Visibility.Hidden;
-
-            //Vis = sw;
-            DataContext = this;
-            //datacontext je resenje, mora se naci nacin ucitavanja konteksta property iz drugog user control-a
-
-        }
-
-        private bool vis;
-        public bool Vis
-        {
-            get { return vis; }
+            get { return (int)this.GetValue(StateProperty); }
             set
             {
-                if (vis != sw.Vis)
-                {
-                    vis = sw.Vis;
-                    OnPropertyChanged("Vis");  // To notify when the property is changed
-                }
+               this.SetValue(StateProperty, value);
+                OnNotifyPropertyChanged("Counter");
             }
         }
 
-        #region INotifyPropertyChanged implementation
-        // Basically, the UI thread subscribes to this event and update the binding if the received Property Name correspond to the Binding Path element
+        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("CheckEntertainment", typeof(int), typeof(MainWindow));
+
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+
+        private void OnNotifyPropertyChanged(string p)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(p));
+            }
         }
-        #endregion
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+        }
+
+        //private Visibility vis;
+        //public Visibility Vis
+        //{
+        //    get { return vis; }
+        //    set { vis = value; }
+        //}
 
         private void ColorZone_MouseOver(object sender, MouseEventArgs e)
         {
@@ -82,37 +96,88 @@ namespace MyApp
             }
         }
 
-        //private void Quotes_Click(object sender, RoutedEventArgs e)
+        //public void collapseEntertainmentControls()
         //{
-        //    QuotesUser.Visibility = Visibility.Visible;
-        //    switchGrid();
+        //    YoutubeUser.Visibility = Visibility.Collapsed;
+        //    MoviesUser.Visibility = Visibility.Collapsed;
+        //    QuotesUser.Visibility = Visibility.Collapsed;
+        //    MusicUser.Visibility = Visibility.Collapsed;
         //}
 
-        //private void Youtube_Click(object sender, RoutedEventArgs e)
+        //public void checkUserControl()
         //{
-        //    YoutubeUser.Visibility = Visibility.Visible;
-        //    switchGrid();
+        //    if (youtube == true)
+        //    {
+        //        YoutubeUser.Visibility = Visibility.Visible;
+        //        MoviesUser.Visibility = Visibility.Collapsed;
+        //        QuotesUser.Visibility = Visibility.Collapsed;
+        //        MusicUser.Visibility = Visibility.Collapsed;
+        //    }
+        //    else if (quote == true)
+        //    {
+        //        YoutubeUser.Visibility = Visibility.Collapsed;
+        //        MoviesUser.Visibility = Visibility.Collapsed;
+        //        QuotesUser.Visibility = Visibility.Visible;
+        //        MusicUser.Visibility = Visibility.Collapsed;
+        //    }
+        //    else if (music == true)
+        //    {
+        //        YoutubeUser.Visibility = Visibility.Collapsed;
+        //        MoviesUser.Visibility = Visibility.Collapsed;
+        //        QuotesUser.Visibility = Visibility.Collapsed;
+        //        MusicUser.Visibility = Visibility.Visible;
+        //    }
+        //    else if (movie == true)
+        //    {
+        //        YoutubeUser.Visibility = Visibility.Collapsed;
+        //        MoviesUser.Visibility = Visibility.Visible;
+        //        QuotesUser.Visibility = Visibility.Collapsed;
+        //        MusicUser.Visibility = Visibility.Collapsed;
+        //    }
         //}
-
-        //private void Music_Click(object sender, RoutedEventArgs e)
-        //{
-        //    MusicUser.Visibility = Visibility.Visible;
-        //    switchGrid();
-        //}
-
-        public void switchGrid()
-        {
-
-        }
 
         private void popUpIzlaz_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void youtube_menu_Click(object sender, RoutedEventArgs e)
         {
-            Vis = sw.Vis;
+            textTransition.SelectedIndex = 1;
+            userSwitch.Vis = 1;
         }
+
+        private void music_menu_Click(object sender, RoutedEventArgs e)
+        {
+            textTransition.SelectedIndex = 1;
+            userSwitch.Vis = 2;
+        }
+
+        private void quotes_menu_Click(object sender, RoutedEventArgs e)
+        {
+            textTransition.SelectedIndex = 1;
+            userSwitch.Vis = 3;
+        }
+
+        private void movies_menu_Click(object sender, RoutedEventArgs e)
+        {
+            textTransition.SelectedIndex = 1;
+            userSwitch.Vis = 4;
+        }
+
+        private void home_Click(object sender, RoutedEventArgs e)
+        {
+            textTransition.SelectedIndex = 0;
+            userSwitch.Vis = 0;
+        }
+
+        private void entertainment_menu_Click(object sender, RoutedEventArgs e)
+        {
+            userSwitch.Vis = 0;
+            Debug.WriteLine(userSwitch.Vis);
+            textTransition.SelectedIndex = 1;
+        }
+
+
     }
 }

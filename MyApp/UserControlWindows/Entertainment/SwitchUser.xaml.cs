@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,47 +23,46 @@ namespace MyApp.UserControlWindows.Entertainment
     public partial class SwitchUser : UserControl, INotifyPropertyChanged
     {
 
-        public static readonly MainWindow mainWindow = new MainWindow();
+        bool quote = false;
+        bool movie = false;
+        bool music = false;
+        bool youtube = false;
+
+        public static Visibility userVisibility;
+
+        Switch switchControl = new Switch();
         public SwitchUser()
         {
+            
             InitializeComponent();
-
             gifInitialization();
-
-            Vis = false;
-            // DataContext explains WPF in which object WPF has to check the binding path. Here Vis is in "this" then:
-            YoutubeUser.Visibility = Visibility.Visible;
-            MoviesUser.Visibility = Visibility.Hidden;
-            QuotesUser.Visibility = Visibility.Hidden;
-            MusicUser.Visibility = Visibility.Hidden;
-
         }
 
-        private bool vis;
-        public bool Vis
+        private int vis;
+        public int Vis
         {
-            get { return vis; }
+            get { return (int)this.GetValue(StateProperty); }
             set
             {
-                if (vis != value)
-                {
-                    vis = value;
-                    OnPropertyChanged("Vis");  // To notify when the property is changed
-                }
+                this.SetValue(StateProperty, value);
+                OnNotifyPropertyChanged("Vis");
+                checkUserControl(Vis);
             }
         }
 
+        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("Vis", typeof(int), typeof(SwitchUser));
 
-        #region INotifyPropertyChanged implementation
-        // Basically, the UI thread subscribes to this event and update the binding if the received Property Name correspond to the Binding Path element
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+
+        private void OnNotifyPropertyChanged(string p)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(p));
+
+            }
         }
-        #endregion
+
         private void gifInitialization()
         {
             ytGif.Source = new Uri(Environment.CurrentDirectory + @"\ytBack.gif");
@@ -73,46 +73,75 @@ namespace MyApp.UserControlWindows.Entertainment
         {
             ytGif.Position = TimeSpan.FromMilliseconds(1);
             movieGif.Position = TimeSpan.FromMilliseconds(1);
-
-            //var videoPath = Environment.CurrentDirectory;
-            //string projectDirectory = Directory.GetParent(videoPath).Parent.Parent.FullName;
-            //ytGif.Source = new Uri(projectDirectory + @"images\Gifs\ytBack.gif", UriKind.Absolute);
-            //ytTextBlock.Text = projectDirectory;
         }
 
-        public void updateVisibility()
+        public void checkUserControl(int number)
         {
-            Vis = true;
+            Debug.WriteLine(Vis);
+            if (number == 0 || youtube == true)
+            {
+                YoutubeUser.Visibility = Visibility.Collapsed;
+                MoviesUser.Visibility = Visibility.Collapsed;
+                QuotesUser.Visibility = Visibility.Collapsed;
+                switch_grid.Visibility = Visibility.Visible;
+                MusicUser.Visibility = Visibility.Collapsed;
+            }
+            if (number == 1 || youtube == true)
+            {
+                YoutubeUser.Visibility = Visibility.Visible;
+                MoviesUser.Visibility = Visibility.Collapsed;
+                QuotesUser.Visibility = Visibility.Collapsed;
+                switch_grid.Visibility = Visibility.Collapsed;
+                MusicUser.Visibility = Visibility.Collapsed;
+            }
+            else if (number == 2)
+            {
+                YoutubeUser.Visibility = Visibility.Collapsed;
+                MoviesUser.Visibility = Visibility.Collapsed;
+                QuotesUser.Visibility = Visibility.Collapsed;
+                switch_grid.Visibility = Visibility.Collapsed;
+                MusicUser.Visibility = Visibility.Visible;
+            }
+            else if (number == 3)
+            {
+                YoutubeUser.Visibility = Visibility.Collapsed;
+                MoviesUser.Visibility = Visibility.Collapsed;
+                QuotesUser.Visibility = Visibility.Visible;
+                switch_grid.Visibility = Visibility.Collapsed;
+                MusicUser.Visibility = Visibility.Collapsed;
+            }
+            else if (number == 4)
+            {
+                YoutubeUser.Visibility = Visibility.Collapsed;
+                MoviesUser.Visibility = Visibility.Visible;
+                QuotesUser.Visibility = Visibility.Collapsed;
+                switch_grid.Visibility = Visibility.Collapsed;
+                MusicUser.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Youtube_Click(object sender, RoutedEventArgs e)
         {
-            YoutubeUser.Visibility = Visibility.Visible;
-            switch_grid.Visibility = Visibility.Hidden;
-            MoviesUser.Visibility = Visibility.Hidden;
-            QuotesUser.Visibility = Visibility.Hidden;
-            MusicUser.Visibility = Visibility.Hidden;
-            
+            Vis = 1;
+            checkUserControl(Vis);
         }
 
         private void music_button_Click(object sender, RoutedEventArgs e)
         {
-            YoutubeUser.Visibility = Visibility.Hidden;
-            switch_grid.Visibility = Visibility.Hidden;
-            MoviesUser.Visibility = Visibility.Hidden;
-            QuotesUser.Visibility = Visibility.Hidden;
-            MusicUser.Visibility = Visibility.Visible;
+            Vis = 2;
+            checkUserControl(Vis);
         }
 
         private void quotes_button_Click(object sender, RoutedEventArgs e)
         {
-            YoutubeUser.Visibility = Visibility.Hidden;
-            switch_grid.Visibility = Visibility.Hidden;
-            MoviesUser.Visibility = Visibility.Hidden;
-            QuotesUser.Visibility = Visibility.Visible;
-            MusicUser.Visibility = Visibility.Hidden;
+            Vis = 3;
+            checkUserControl(Vis);
         }
 
-        
+        private void movies_button_Click(object sender, RoutedEventArgs e)
+        {
+            Vis = 4;
+            checkUserControl(Vis);
+        }
     }
 }

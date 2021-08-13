@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -32,6 +33,12 @@ namespace MyApp.UserControlWindows.HomeScreen
             //{
             //    BeginInvokeExample();
             //});
+        }
+
+        private void entertainment_button_Click(object sender, RoutedEventArgs e)
+        {
+            //Debug.WriteLine(userSwitch);
+            //userSwitch.Vis = 0;
         }
 
         //private void BeginInvokeExample()

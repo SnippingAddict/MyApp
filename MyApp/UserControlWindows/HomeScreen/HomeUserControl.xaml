@@ -6,79 +6,85 @@
              xmlns:local="clr-namespace:MyApp.UserControlWindows.HomeScreen"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local1="clr-namespace:MyApp.UserControlWindows"
+             xmlns:switch="clr-namespace:MyApp.UserControlWindows.Entertainment"
              mc:Ignorable="d" 
              d:DesignHeight="514" d:DesignWidth="950">
 
+
     <Grid Height="514" Width="950">
-   
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+        
+        <switch:SwitchUser x:Name="userSwitch"/>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="0"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
                       Grid.Column="0"
                       Grid.ColumnSpan="2"
                       Grid.RowSpan="3">
-                    <Image Source="/MyApp;component/images/UserGrid/homescreen_background.jpg"
+                <Image Source="/MyApp;component/images/UserGrid/homescreen_background.jpg"
                            Stretch="Fill"/>
-                </Grid>
+            </Grid>
 
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="0">
-                    <local1:YoutubeUser x:Name="YoutubeUser" HorizontalAlignment="Stretch" Visibility="Hidden" x:FieldModifier="public" VerticalAlignment="Stretch" />
-                </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="0">
+                <local1:YoutubeUser x:Name="YoutubeUser" HorizontalAlignment="Stretch" Visibility="Collapsed" x:FieldModifier="public" VerticalAlignment="Stretch" />
+            </Grid>
 
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:MusicUser x:Name="MusicUser" HorizontalAlignment="Stretch"  Visibility="Hidden" VerticalAlignment="Stretch" x:FieldModifier="public" />
-                </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                <local1:MusicUser x:Name="MusicUser" HorizontalAlignment="Stretch"  Visibility="Collapsed" VerticalAlignment="Stretch" x:FieldModifier="public" />
+            </Grid>
 
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:QuotesUser x:Name="QuotesUser" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Visibility="Hidden" x:FieldModifier="public" />
-                </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                <local1:QuotesUser x:Name="QuotesUser" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Visibility="Collapsed" x:FieldModifier="public" />
+            </Grid>
 
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:MoviesUser x:Name="MoviesUser" VerticalAlignment="Stretch" Margin="-6,7,-3,-2" HorizontalAlignment="Stretch" Visibility="Hidden" x:FieldModifier="public" Background="#FFBB6363" />
-                </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
+                <local1:MoviesUser x:Name="MoviesUser" VerticalAlignment="Stretch" Margin="-6,7,-3,-2" HorizontalAlignment="Stretch" Visibility="Collapsed" x:FieldModifier="public" Background="#FFBB6363" />
+            </Grid>
 
             <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromTop, Duration=0:0:1}">
-                        <TextBlock Text="Welcome user_name"
+                <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromTop, Duration=0:0:1}">
+                    <TextBlock Text="Welcome user_name"
                                     FontSize="50"
                                     Foreground="#404040"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"/>
-                    </materialDesign:TransitioningContent>
-                </Grid>
+                </materialDesign:TransitioningContent>
+            </Grid>
 
-                <Grid Grid.Row="1" Grid.Column="0">
-                    <materialDesign:TransitioningContent>
-                        <materialDesign:TransitioningContent.OpeningEffects>
-                            <materialDesign:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.7"/>
-                        </materialDesign:TransitioningContent.OpeningEffects>
-                        <Button HorizontalAlignment="Right"
+            <Grid Grid.Row="1" Grid.Column="0">
+                <materialDesign:TransitioningContent>
+                    <materialDesign:TransitioningContent.OpeningEffects>
+                        <materialDesign:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.7"/>
+                    </materialDesign:TransitioningContent.OpeningEffects>
+                    <Button HorizontalAlignment="Right"
                                 Style="{StaticResource MaterialDesignOutlinedButton}"
                                 Margin="0,0,50,0"
                                 Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"
                                 Content="ENTERTAINMENT"
+                                x:Name="entertainment_button"
+                                Click="entertainment_button_Click"
                                 Width="200px"
                                 Height="80px"
                                 VerticalAlignment="Center"/>
-                    </materialDesign:TransitioningContent>
-                </Grid>
+                </materialDesign:TransitioningContent>
+            </Grid>
 
-                <Grid Grid.Row="1" Grid.Column="1">
-                    <materialDesign:TransitioningContent>
-                        <materialDesign:TransitioningContent.OpeningEffects>
-                            <materialDesign:TransitionEffect Kind="SlideInFromRight" Duration="0:0:0.7"/>
-                        </materialDesign:TransitioningContent.OpeningEffects>
-                        <Button HorizontalAlignment="Left"
+            <Grid Grid.Row="1" Grid.Column="1">
+                <materialDesign:TransitioningContent>
+                    <materialDesign:TransitioningContent.OpeningEffects>
+                        <materialDesign:TransitionEffect Kind="SlideInFromRight" Duration="0:0:0.7"/>
+                    </materialDesign:TransitioningContent.OpeningEffects>
+                    <Button HorizontalAlignment="Left"
                                 Style="{StaticResource MaterialDesignOutlinedButton}"
                                 Margin="50,0,0,0"
                                 Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"
@@ -86,8 +92,8 @@
                                 Width="200px"
                                 Height="80px"
                                 VerticalAlignment="Center"/>
-                    </materialDesign:TransitioningContent>
-                </Grid>
+                </materialDesign:TransitioningContent>
             </Grid>
+        </Grid>
     </Grid>
 </UserControl>
