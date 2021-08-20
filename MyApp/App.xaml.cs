@@ -13,5 +13,9 @@ namespace MyApp
     /// </summary>
     public partial class App : Application
     {
+        public App() : base()
+        {
+            Unosquare.FFME.Library.FFmpegDirectory = @"c:\ffmpeg";
+        }
     }
 }

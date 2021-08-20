@@ -27,30 +27,22 @@ namespace MyApp
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-
+    {         
 
         public static Visibility checkEntertainment;
         public static Visibility checkEntertainment1;
 
-
-        bool quote = false;
-        bool movie = false;
-        bool music = false;
-        bool youtube = false;
-
-        //public int Counter
-        //{
-        //    get;
-        //    set;
-        //}
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
 
         public int Counter
         {
-            get { return (int)this.GetValue(StateProperty); }
+            get { return (int)GetValue(StateProperty); }
             set
             {
-               this.SetValue(StateProperty, value);
+                SetValue(StateProperty, value);
                 OnNotifyPropertyChanged("Counter");
             }
         }
@@ -59,6 +51,9 @@ namespace MyApp
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Check for property event for the given property name (string p)
+        /// </summary>
         private void OnNotifyPropertyChanged(string p)
         {
             if (PropertyChanged != null)
@@ -67,27 +62,8 @@ namespace MyApp
             }
         }
 
-        public MainWindow()
-        {
-            InitializeComponent();
 
-        }
-
-        //private Visibility vis;
-        //public Visibility Vis
-        //{
-        //    get { return vis; }
-        //    set { vis = value; }
-        //}
-
-        private void ColorZone_MouseOver(object sender, MouseEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                this.DragMove();
-            }
-        }
-
+        /// <summary>Window DragMove</summary
         private void Window_MouseOver(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -95,46 +71,6 @@ namespace MyApp
                 this.DragMove();
             }
         }
-
-        //public void collapseEntertainmentControls()
-        //{
-        //    YoutubeUser.Visibility = Visibility.Collapsed;
-        //    MoviesUser.Visibility = Visibility.Collapsed;
-        //    QuotesUser.Visibility = Visibility.Collapsed;
-        //    MusicUser.Visibility = Visibility.Collapsed;
-        //}
-
-        //public void checkUserControl()
-        //{
-        //    if (youtube == true)
-        //    {
-        //        YoutubeUser.Visibility = Visibility.Visible;
-        //        MoviesUser.Visibility = Visibility.Collapsed;
-        //        QuotesUser.Visibility = Visibility.Collapsed;
-        //        MusicUser.Visibility = Visibility.Collapsed;
-        //    }
-        //    else if (quote == true)
-        //    {
-        //        YoutubeUser.Visibility = Visibility.Collapsed;
-        //        MoviesUser.Visibility = Visibility.Collapsed;
-        //        QuotesUser.Visibility = Visibility.Visible;
-        //        MusicUser.Visibility = Visibility.Collapsed;
-        //    }
-        //    else if (music == true)
-        //    {
-        //        YoutubeUser.Visibility = Visibility.Collapsed;
-        //        MoviesUser.Visibility = Visibility.Collapsed;
-        //        QuotesUser.Visibility = Visibility.Collapsed;
-        //        MusicUser.Visibility = Visibility.Visible;
-        //    }
-        //    else if (movie == true)
-        //    {
-        //        YoutubeUser.Visibility = Visibility.Collapsed;
-        //        MoviesUser.Visibility = Visibility.Visible;
-        //        QuotesUser.Visibility = Visibility.Collapsed;
-        //        MusicUser.Visibility = Visibility.Collapsed;
-        //    }
-        //}
 
         private void popUpIzlaz_Click(object sender, RoutedEventArgs e)
         {

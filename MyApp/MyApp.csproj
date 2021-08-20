@@ -45,6 +45,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -245,6 +246,32 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\UserGrid\entertaiment_screen_background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UserGrid\ytBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UserGrid\moviegifback.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UserGrid\entertaiment_screen_background2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UserControlWindows\Training\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UserControlWindows\Media\videoExample.mkv" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FFME.Windows">
+      <Version>4.4.350</Version>
+    </PackageReference>
+    <PackageReference Include="VideoLAN.LibVLC.Windows">
+      <Version>3.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="Vlc.DotNet.Wpf">
+      <Version>3.1.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.0.0\build\MaterialDesignThemes.targets')" />

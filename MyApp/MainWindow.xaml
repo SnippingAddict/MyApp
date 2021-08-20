@@ -15,7 +15,6 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{x:Null}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        MouseMove="Window_MouseOver"
         xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
         xmlns:localSwitch="clr-namespace:MyApp.UserControlWindows.Entertainment"
         Title="MainWindow" MinHeight="600" MinWidth="950" MaxWidth="950" MaxHeight="650" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Width="830" Height="544" >
@@ -29,12 +28,8 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
 
-    <materialDesign:Transitioner VerticalAlignment="Center"
-                                 HorizontalAlignment="Center"
-                                 SelectedIndex="0"
-                                 AutoApplyTransitionOrigins="True">
-
-        <materialDesign:DialogHost x:Name="MainDialogHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <!--creating dialoghost for dialog window popups-->
+    <materialDesign:DialogHost x:Name="MainDialogHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
             <Grid  Background="#2b648c">
                 <Grid.ColumnDefinitions>
@@ -47,6 +42,7 @@
                     <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
 
+                <!--Adding a material design transitioner-->
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan='3'>
                     <materialDesign:Transitioner VerticalAlignment="Center"
                                              HorizontalAlignment="Center"
@@ -54,11 +50,13 @@
                                              SelectedIndex="0"
                                              AutoApplyTransitionOrigins="True">
 
+                        <!--First user control da shows when MainWindow starts, first user control for transitioner-->
                         <HomeScreen:HomeUserControl x:Name="homeUser" 
                                                     HorizontalAlignment="Stretch" 
                                                     VerticalAlignment="Stretch"
                                                     Visibility="Visible"/>
 
+                        <!--Defining transition animation when changing usercontrols-->
                         <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
                             <materialDesign:TransitionerSlide.BackwardWipe>
                                 <materialDesign:SlideOutWipe/>
@@ -66,6 +64,7 @@
                             <materialDesign:TransitionerSlide.ForwardWipe>
                                 <materialDesign:FadeWipe />
                             </materialDesign:TransitionerSlide.ForwardWipe>
+                            <!--Defining a transition slide window (switchuser usercontrol)-->
                             <localSwitch:SwitchUser x:Name="userSwitch"/>
                         </materialDesign:TransitionerSlide>
 
@@ -96,62 +95,7 @@
                     Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"
                     HorizontalAlignment="Center"/>-->
 
-                <!--<Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:YoutubeUser 
-                    x:Name="HomeScreen" 
-                    HorizontalAlignment="Stretch" 
-                    Visibility="Collapsed" 
-                    x:FieldModifier="public" 
-                    VerticalAlignment="Stretch" />
-                </Grid>
-
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:YoutubeUser 
-                    x:Name="YoutubeUser" 
-                    HorizontalAlignment="Stretch" 
-                    Visibility="Collapsed" 
-                    x:FieldModifier="public" 
-                    VerticalAlignment="Stretch" />
-                </Grid>
-
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:MusicUser 
-                    x:Name="MusicUser" 
-                    HorizontalAlignment="Stretch"  
-                    Visibility="Collapsed" VerticalAlignment="Stretch"
-                    x:FieldModifier="public" />
-                </Grid>
-
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:QuotesUser 
-                    x:Name="QuotesUser" 
-                    HorizontalAlignment="Stretch"  
-                    VerticalAlignment="Stretch"  
-                    Visibility="Collapsed" 
-                    x:FieldModifier="public" />
-                </Grid>
-
-                <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                    <local1:MoviesUser 
-                    x:Name="MoviesUser" 
-                    VerticalAlignment="Stretch" 
-                    HorizontalAlignment="Stretch" 
-                    Visibility="Collapsed" 
-                    x:FieldModifier="public" 
-                    Background="#FFBB6363" />
-                </Grid>-->
-
-                <!--<Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="1">
-                <HomeScreen:HomeUserControl 
-                    x:Name="HomeScreenControl" 
-                    VerticalAlignment="Stretch" 
-                    Margin="-6,7,-3,-2" 
-                    HorizontalAlignment="Stretch" 
-                    Visibility="Collapsed" 
-                    x:FieldModifier="public" 
-                    Background="#FFBB6363" />
-            </Grid>-->
-
+                <!--Defining a drawerhost for left side drawer-->
                 <materialDesign:DrawerHost HorizontalAlignment="Stretch" 
                                        VerticalAlignment="Stretch" 
                                        BorderThickness="2" 
@@ -159,7 +103,8 @@
                                        Grid.ColumnSpan="2" 
                                        Grid.RowSpan="3" 
                                        Margin="-2,-2,-3,-2.429">
-
+                    
+                    <!--Left side drawer content-->
                     <materialDesign:DrawerHost.LeftDrawerContent>
                         <StackPanel Margin="0" >
                             <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
@@ -260,16 +205,18 @@
                         </StackPanel>
                     </materialDesign:DrawerHost.LeftDrawerContent>
 
+                    <!--Left side drawer opener-->
                     <Grid MinWidth="480" MinHeight="480">
                         <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="2">
-                            <materialDesign:ColorZone  Padding="20" materialDesign:ShadowAssist.ShadowDepth="Depth3" Mode="Standard" DockPanel.Dock="Top" BorderBrush="Transparent" Height="86"  >
+                            <materialDesign:ColorZone MouseMove="Window_MouseOver" x:Name="colorZoneDrag" Padding="20" materialDesign:ShadowAssist.ShadowDepth="Depth3" Mode="Standard" DockPanel.Dock="Top" BorderBrush="Transparent" Height="86"  >
                                 <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="9" >
-                                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
-                                  ToolTip="Odabir poslova"
-                                  x:Name="MenuToggleButton"
-                                  Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                                  CommandParameter="{x:Static Dock.Left}" />
+                                    <ToggleButton   Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                                                    ToolTip="Odabir poslova"
+                                                    x:Name="MenuToggleButton"
+                                                    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                                                    CommandParameter="{x:Static Dock.Left}" />
 
+                                     <!--Right side popup box-->
                                     <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" ToolTip="Više opcija"  >
                                         <StackPanel Width="150" >
                                             <Button Content="Odjavljivanje"  />
@@ -285,28 +232,4 @@
                 </materialDesign:DrawerHost>
             </Grid>
         </materialDesign:DialogHost>
-    </materialDesign:Transitioner>
-    <!--<MenuItem x:Name="IzveštajNew" Header="Novi Izveštaj"  Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}">
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="FileDocument" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem x:Name="IzvestajOpen" Header="Otvori.."  Command="ApplicationCommands.Open" >
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="OpenInApp" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem x:Name="IzvestajSave" Header="Sačuvaj kao.." Command="ApplicationCommands.Save" x:FieldModifier="public">
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="ContentSaveAll"  />
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem x:Name="IzvestajExit" Header="Izađi"   Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}">
-                                        <MenuItem.Icon>
-                                            <materialDesign:PackIcon Kind="ExitToApp" />
-                                        </MenuItem.Icon>
-                                    </MenuItem>-->
-    <!--<MenuItem x:Name="dostava" Header="Podaci o dostavi" Width="230" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}">
-
-                                </MenuItem >-->
 </Window>

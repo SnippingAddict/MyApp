@@ -23,22 +23,15 @@ namespace MyApp.UserControlWindows.Entertainment
     public partial class SwitchUser : UserControl, INotifyPropertyChanged
     {
 
-        bool quote = false;
-        bool movie = false;
-        bool music = false;
-        bool youtube = false;
 
         public static Visibility userVisibility;
 
         Switch switchControl = new Switch();
         public SwitchUser()
         {
-            
             InitializeComponent();
-            gifInitialization();
         }
 
-        private int vis;
         public int Vis
         {
             get { return (int)this.GetValue(StateProperty); }
@@ -54,6 +47,9 @@ namespace MyApp.UserControlWindows.Entertainment
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Check for property event for the given property name (string p)
+        /// </summary>
         private void OnNotifyPropertyChanged(string p)
         {
             if (PropertyChanged != null)
@@ -63,22 +59,26 @@ namespace MyApp.UserControlWindows.Entertainment
             }
         }
 
-        private void gifInitialization()
-        {
-            ytGif.Source = new Uri(Environment.CurrentDirectory + @"\ytBack.gif");
-            movieGif.Source = new Uri(Environment.CurrentDirectory + @"\moviegifback.gif");
-        }
+        //private void gifInitialization()
+        //{
+        //    ytGif.Source = new Uri(Environment.CurrentDirectory + @"\ytBack.gif");
+        //    movieGif.Source = new Uri(Environment.CurrentDirectory + @"\moviegifback.gif");
+        //}
 
-        private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
-        {
-            ytGif.Position = TimeSpan.FromMilliseconds(1);
-            movieGif.Position = TimeSpan.FromMilliseconds(1);
-        }
+        //private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        //{
+        //    ytGif.Position = TimeSpan.FromMilliseconds(1);
+        //    movieGif.Position = TimeSpan.FromMilliseconds(1);
+        //}
 
+        /// <summary>
+        /// Change UserControl visibility based on param
+        /// </summary>
+        /// <param name="number"></param>
         public void checkUserControl(int number)
         {
             Debug.WriteLine(Vis);
-            if (number == 0 || youtube == true)
+            if (number == 0)
             {
                 YoutubeUser.Visibility = Visibility.Collapsed;
                 MoviesUser.Visibility = Visibility.Collapsed;
@@ -86,7 +86,7 @@ namespace MyApp.UserControlWindows.Entertainment
                 switch_grid.Visibility = Visibility.Visible;
                 MusicUser.Visibility = Visibility.Collapsed;
             }
-            if (number == 1 || youtube == true)
+            if (number == 1)
             {
                 YoutubeUser.Visibility = Visibility.Visible;
                 MoviesUser.Visibility = Visibility.Collapsed;

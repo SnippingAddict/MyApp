@@ -3,10 +3,217 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MyApp.UserControlWindows"
-             mc:Ignorable="d" 
+             xmlns:local="clr-namespace:MyApp.UserControlWindows" xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             xmlns:ffme="clr-namespace:Unosquare.FFME;assembly=ffme.win"
+             xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
              d:DesignHeight="450" d:DesignWidth="800" Background="DarkTurquoise">
+
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open" CanExecute="Open_CanExecute" Executed="Open_Executed" />
+        <CommandBinding Command="MediaCommands.Play" CanExecute="Play_CanExecute" Executed="Play_Executed" />
+        <CommandBinding Command="MediaCommands.Pause" CanExecute="Pause_CanExecute" Executed="Pause_Executed" />
+        <CommandBinding Command="MediaCommands.Stop" CanExecute="Stop_CanExecute" Executed="Stop_Executed" />
+    </UserControl.CommandBindings>
+    
     <Grid>
-        <Label FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Wheat">MOVIES</Label>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <materialDesign:DrawerHost
+                            x:Name="DrawerHost"
+                         Grid.Row="0"
+                            Grid.RowSpan="2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="2"
+                            BorderBrush="{DynamicResource MaterialDesignDivider}"
+                            BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}">
+
+            <materialDesign:DrawerHost.TopDrawerContent>
+                
+                <StackPanel
+                      Margin="16"
+                      HorizontalAlignment="Left"
+                      Orientation="Horizontal">
+                                    <TextBlock
+                        Margin="4"
+                        VerticalAlignment="Center"
+                        Text="TOP BANANA" />
+                                    <Button
+                        Command="ApplicationCommands.Open"
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Margin="4"
+                        VerticalAlignment="Center"
+                        Content="CLOSE ALL" />
+                                    <Button
+                        Command="MediaCommands.Play"
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Margin="4"
+                        VerticalAlignment="Center"
+                        Content="CLOSE THIS" />
+
+                    <Button
+                    Command="MediaCommands.Pause"
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Margin="4"
+                        VerticalAlignment="Center"
+                        Content="CLOSE THIS" />
+                    <Button
+                    Command="MediaCommands.Stop"
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Margin="4"
+                        VerticalAlignment="Center"
+                        Content="CLOSE THIS" />
+
+                </StackPanel>
+            </materialDesign:DrawerHost.TopDrawerContent>
+            <Button
+      Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+      CommandParameter="{x:Static Dock.Top}"
+      Grid.Row="0"
+      Grid.Column="1"
+      Margin="4"
+      Content="{materialDesign:PackIcon Kind=ArrowUp}" />
+        </materialDesign:DrawerHost>
+        
+        <Grid Grid.Row="0" Grid.Column="1">
+            <MediaElement x:Name="myMediaElement" Stretch="Fill"
+                      LoadedBehavior="Manual" UnloadedBehavior="Stop"
+                      MediaOpened="Element_MediaOpened" 
+                      MediaEnded="Element_MediaEnded"/>
+        </Grid>
+        <!--<ffme:MediaElement x:Name="myMediaElement" 
+                           Background="Gray" 
+                           LoadedBehavior="Manual" 
+                           UnloadedBehavior="Manual" 
+                           MediaOpened="Element_MediaOpened" 
+                           MediaEnded="Element_MediaEnded" />-->
+
+        <Grid Grid.Row="1"
+              Grid.Column="1"
+              Background="#1a0409">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+
+            <StackPanel VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Grid.Row="0" 
+                        Grid.Column="0" Grid.ColumnSpan="4">
+                <!-- Seek to slider. Ths slider allows you to jump to different parts of the media playback. -->
+                <Slider Name="timelineSlider"
+                        Thumb.DragStarted="timelineSlider_DragStarted" 
+                        Thumb.DragCompleted="timelineSlider_DragCompleted" 
+                        ValueChanged="timelineSlider_ValueChanged"
+                        Padding="0"
+                        Width="700"
+                        Foreground="#ff0055"
+                        TickPlacement="BottomRight"/>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Grid.Column="0" Grid.ColumnSpan="1">
+                <Button Click="Button_Click"
+                                Height="32"
+                                Width="32"
+                                Background="#ff0055"
+                                Padding="0"
+                                Margin="0,0,10,0"
+                                BorderThickness="0"
+                                BorderBrush="Transparent"
+                                >
+                    <materialDesign:PackIcon
+                                Kind="Play"
+                                Height="15"
+                                Width="15"
+                                HorizontalAlignment="Center">
+                    </materialDesign:PackIcon>
+                </Button>
+                <Button Click="Button_Click_1"
+                                Margin="0,0,10,0"
+                                Padding="0"
+                                Background="#ff0055"
+                                BorderThickness="0"
+                                Width="32"
+                                Height="32"
+                        Command="MediaCommands.Pause">
+                    <materialDesign:PackIcon
+                                Kind="Pause"
+                                Height="15"
+                                Width="15"
+                                HorizontalAlignment="Center">
+                    </materialDesign:PackIcon>
+                </Button>
+                <Button Click="Button_Click_2"
+                                Margin="0,0,10,0"
+                                Padding="0"
+                                Background="#ff0055"
+                                BorderThickness="0"
+                                Width="32"
+                                Command="MediaCommands.Stop"
+                                Height="32">
+                    <materialDesign:PackIcon
+                                Kind="Stop"
+                                Height="15"
+                                Width="15"
+                                HorizontalAlignment="Center">
+                    </materialDesign:PackIcon>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="1" 
+                        Grid.Column="1" Grid.ColumnSpan="2">
+                <TextBlock Name="lblProgressStatus"
+                           Margin="0,0,10,0"
+                           Foreground="#ebebeb"
+                           VerticalAlignment="Center">00:00:00</TextBlock>
+
+                <TextBlock Foreground="#ebebeb" 
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" 
+                           Margin="5">Volume</TextBlock>
+                <Slider Name="volumeSlider"
+                        
+                        Foreground="#ff0055"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        
+                        Minimum="0" Maximum="1"
+                        Value="0.5" Width="100"/>
+
+                <!--<TextBlock Foreground="White" 
+                           Margin="5"  
+                           VerticalAlignment="Center">Speed</TextBlock>
+                <Slider Name="speedRatioSlider"
+                        Foreground="#ff0055"
+                        VerticalAlignment="Center" 
+                        ValueChanged="ChangeMediaSpeedRatio" 
+                        Value="1" Width="70" />-->
+
+            </StackPanel>
+
+
+        </Grid>
     </Grid>
 </UserControl>

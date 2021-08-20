@@ -23,7 +23,6 @@ namespace MyApp.UserControlWindows
         public MusicUser()
         {
             InitializeComponent();
-            var idiom = 5;
         }
     }
 }

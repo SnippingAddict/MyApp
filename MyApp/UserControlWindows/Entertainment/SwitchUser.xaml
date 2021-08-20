@@ -13,22 +13,22 @@
     <Grid>
         <!--<UserControl DataContext="{Binding MainWindow}"/>-->
 
-            <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Row="0">
-                <local1:YoutubeUser x:Name="YoutubeUser" HorizontalAlignment="Stretch" Visibility="Collapsed" VerticalAlignment="Stretch" />
-            </Grid>
+        <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Row="0">
+            <local1:YoutubeUser x:Name="YoutubeUser" HorizontalAlignment="Stretch" Visibility="Collapsed" VerticalAlignment="Stretch" />
+        </Grid>
 
-            <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Row="0">
-                <local1:MusicUser x:Name="MusicUser" HorizontalAlignment="Stretch"  Visibility="Collapsed" VerticalAlignment="Stretch" x:FieldModifier="public" />
-            </Grid>
+        <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Row="0">
+            <local1:MusicUser x:Name="MusicUser" HorizontalAlignment="Stretch"  Visibility="Collapsed" VerticalAlignment="Stretch" x:FieldModifier="public" />
+        </Grid>
 
-            <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Row="0">
-                <local1:QuotesUser x:Name="QuotesUser" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Visibility="Collapsed" x:FieldModifier="public" />
-            </Grid>
+        <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Row="0">
+            <local1:QuotesUser x:Name="QuotesUser" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Visibility="Collapsed" x:FieldModifier="public" />
+        </Grid>
 
-            <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Row="0">
-                <local1:MoviesUser x:Name="MoviesUser" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" x:FieldModifier="public" Background="#FFBB6363" />
-            </Grid>
-        
+        <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Row="0">
+            <local1:MoviesUser x:Name="MoviesUser" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" x:FieldModifier="public" Background="#FFBB6363" />
+        </Grid>
+
         <Grid x:Name="switch_grid" Visibility="Visible">
 
             <Grid Background="#2b648c">
@@ -59,7 +59,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <Image Source="/MyApp;component/images/UserGrid/entertaiment_screen_background.jpg"
+                    <Image Source="/MyApp;component/images/UserGrid/homescreen_background.jpg"
                            Stretch="Fill"
                            Grid.ColumnSpan="3"
                            Grid.RowSpan="3"/>
@@ -86,16 +86,16 @@
 
 
                     <Grid Grid.ColumnSpan="1" Background="#f0f0f0" Grid.Row="0" Margin="1,0,0,0">
-                        <!-- Problem je prevelika potrosnja ram memorije, izbaciti gif ili naci drugo resenje za animirane pozadine -->
                         <materialDesign:TransitioningContent>
                             <materialDesign:TransitioningContent.OpeningEffects>
                                 <materialDesign:TransitionEffect Kind="FadeIn" Duration='0:0:0.5'/>
                             </materialDesign:TransitioningContent.OpeningEffects>
-                            <MediaElement Stretch="Fill"
+                            <!--<MediaElement Stretch="Fill"
                                   x:Name="ytGif"
                                   LoadedBehavior="Play"
                                   MediaEnded="MediaElement_MediaEnded"
-                                  Visibility="Visible"/>
+                                  Visibility="Visible"/>-->
+                            <Image Source="/MyApp;component/images/UserGrid/ytBack.png" Stretch="Fill"/>
                         </materialDesign:TransitioningContent>
 
                         <materialDesign:TransitioningContent>
@@ -170,14 +170,15 @@
                                     <materialDesign:TransitionEffect Kind="ExpandIn" Duration='0:0:1'/>
                                 </materialDesign:TransitioningContent.OpeningEffects>
                                 <Button Height="70"
-                                    Width="70"
-                                    x:Name="music_button"
-                                    Click="music_button_Click"
-                                    Background="#1c5a8c"
-                                    BorderThickness="0"
-                                    BorderBrush="Transparent"
-                                    Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
-                                    materialDesign:ButtonAssist.CornerRadius="5">
+                                        Width="70"
+                                        ToolTip="Switch to music"
+                                        x:Name="music_button"
+                                        Click="music_button_Click"
+                                        Background="#1c5a8c"
+                                        BorderThickness="0"
+                                        BorderBrush="Transparent"
+                                        Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+                                        materialDesign:ButtonAssist.CornerRadius="5">
                                     <materialDesign:PackIcon
                                         Kind="Music"
                                         Height="30"
@@ -223,11 +224,12 @@
                             <materialDesign:TransitioningContent.OpeningEffects>
                                 <materialDesign:TransitionEffect Kind="FadeIn" Duration='0:0:0.5'/>
                             </materialDesign:TransitioningContent.OpeningEffects>
-                            <MediaElement Stretch="Fill"
+                            <!--<MediaElement Stretch="Fill"
                                   x:Name="movieGif"
                                   LoadedBehavior="Play"
                                   MediaEnded="MediaElement_MediaEnded"
-                                  Visibility="Visible" Margin="0,0,1,1"/>
+                                  Visibility="Visible" Margin="0,0,1,1"/>-->
+                            <Image Source="/MyApp;component/images/UserGrid/moviegifback.png" Stretch="Fill"/>
                         </materialDesign:TransitioningContent>
                         <materialDesign:TransitioningContent>
                             <materialDesign:TransitioningContent.OpeningEffects>
@@ -252,6 +254,7 @@
                                         BorderThickness="0"
                                         Width="120"
                                         Height="35"
+                                        ToolTip="Switch to movies"
                                         materialDesign:ButtonAssist.CornerRadius="5"
                                         Background="#1b4021"
                                         Content="movies"/>
@@ -259,7 +262,7 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                
+
                 <!--<Button Grid.Row="1"
                         Grid.ColumnSpan="2"
                         VerticalAlignment="Bottom"
