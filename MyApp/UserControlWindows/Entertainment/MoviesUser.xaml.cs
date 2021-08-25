@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace MyApp.UserControlWindows
     /// <summary>
     /// Interaction logic for MoviesUser.xaml
     /// </summary>
-    public partial class MoviesUser : UserControl
+    public partial class MoviesUser : UserControl, INotifyPropertyChanged
     {
         private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
@@ -29,30 +30,59 @@ namespace MyApp.UserControlWindows
         public MoviesUser()
         {
             InitializeComponent();
-            
+
             //myMediaElement.Source = new Uri(Environment.CurrentDirectory + @"\videoExample.mkv");
-            //myMediaElement.Play();
+            //myMediaElement.Play
+
+
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
         }
 
+            
+
         /// <summary>Change the volume of the media.</summary> 
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
         {
+
             myMediaElement.Volume = (double)volumeSlider.Value;
+            //OnNotifyPropertyChanged("volumeIcon");
+            var sliderVal = volumeSlider.Value;
+            //Debug.WriteLine(sliderVal);
+
+            if (sliderVal >= 50 && sliderVal <= 75)
+            {
+                volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeMedium;
+            } else if (sliderVal <= 25 && sliderVal >= 0)
+            {
+                volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeLow;
+            }
+            else if (sliderVal == 100 && sliderVal >= 75)
+            {
+                volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeHigh;
+            } else if (sliderVal == 0)
+            {
+                volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeOff;
+            }
         }
 
+        public CornerRadius CornerRadius { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
-        /// Change the speed of the media.
+        /// Check for property event for the given property name (string p)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param
-        //private void ChangeMediaSpeedRatio(object sender, RoutedPropertyChangedEventArgs<double> args)
-        //{
-        //    myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
-        //}
+        private void OnNotifyPropertyChanged(string p)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(p));
+
+            }
+        }
 
         /// <summary>
         /// When the media opens, initialize the "Seek To" slider maximum value
@@ -96,33 +126,33 @@ namespace MyApp.UserControlWindows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
            
-            InitializePropertyValues();
-        }
+        //    InitializePropertyValues();
+        //}
 
-        /// <summary>
-        /// Pause media.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            myMediaElement.Pause();
-        }
+        ///// <summary>
+        ///// Pause media.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void Button_Click_1(object sender, RoutedEventArgs e)
+        //{
+        //    myMediaElement.Pause();
+        //}
 
-        /// <summary>
-        /// Stop media.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            // The Stop method stops and resets the media to be played from
-            // the beginning.
-            myMediaElement.Stop();
-        }
+        ///// <summary>
+        ///// Stop media.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void Button_Click_2(object sender, RoutedEventArgs e)
+        //{
+        //    // The Stop method stops and resets the media to be played from
+        //    // the beginning.
+        //    myMediaElement.Stop();
+        //}
 
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -134,6 +164,7 @@ namespace MyApp.UserControlWindows
             }
         }
 
+        //Three timelineSlider methods for manipulating slider values and media length
         private void timelineSlider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
             userIsDraggingSlider = true;
@@ -161,6 +192,7 @@ namespace MyApp.UserControlWindows
             openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg;*.mkv)|*.mp3;*.mpg;*.mpeg;*.mkv|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() != null)
                 myMediaElement.Source = new Uri(openFileDialog.FileName);
+            myMediaElement.Visibility = Visibility.Visible;
         }
 
         private void Play_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -195,5 +227,34 @@ namespace MyApp.UserControlWindows
             mediaPlayerIsPlaying = false;
         }
 
+        private void volumeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public bool Visibily
+        {
+            get { return (bool)GetValue(VisibilyProperty); }
+            set { SetValue(VisibilyProperty, value); }
+        }
+
+        public static readonly DependencyProperty VisibilyProperty =
+            DependencyProperty.Register("Visibily", typeof(bool), typeof(MoviesUser), new PropertyMetadata(true));
+
+        private void majmmun_Click(object sender, RoutedEventArgs e)
+        {
+            Visibily = true;
+        }
+
+        private void majmmun2_Click(object sender, RoutedEventArgs e)
+        {
+            Visibily = false;
+        }
+
+        private void majmmun2_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Visibily = false;
+
+        }
     }
 }

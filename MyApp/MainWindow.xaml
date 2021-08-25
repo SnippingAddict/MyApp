@@ -31,61 +31,61 @@
     <!--creating dialoghost for dialog window popups-->
     <materialDesign:DialogHost x:Name="MainDialogHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-            <Grid  Background="#2b648c">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="3*"/>
-                </Grid.RowDefinitions>
+        <Grid  Background="#2b648c">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
 
-                <!--Adding a material design transitioner-->
-                <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan='3'>
-                    <materialDesign:Transitioner VerticalAlignment="Center"
+            <!--Adding a material design transitioner-->
+            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan='3'>
+                <materialDesign:Transitioner VerticalAlignment="Center"
                                              HorizontalAlignment="Center"
                                              x:Name="textTransition"
                                              SelectedIndex="0"
                                              AutoApplyTransitionOrigins="True">
 
-                        <!--First user control da shows when MainWindow starts, first user control for transitioner-->
-                        <HomeScreen:HomeUserControl x:Name="homeUser" 
+                    <!--First user control da shows when MainWindow starts, first user control for transitioner-->
+                    <HomeScreen:HomeUserControl x:Name="homeUser" 
                                                     HorizontalAlignment="Stretch" 
                                                     VerticalAlignment="Stretch"
                                                     Visibility="Visible"/>
 
-                        <!--Defining transition animation when changing usercontrols-->
-                        <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
-                            <materialDesign:TransitionerSlide.BackwardWipe>
-                                <materialDesign:SlideOutWipe/>
-                            </materialDesign:TransitionerSlide.BackwardWipe>
-                            <materialDesign:TransitionerSlide.ForwardWipe>
-                                <materialDesign:FadeWipe />
-                            </materialDesign:TransitionerSlide.ForwardWipe>
-                            <!--Defining a transition slide window (switchuser usercontrol)-->
-                            <localSwitch:SwitchUser x:Name="userSwitch"/>
-                        </materialDesign:TransitionerSlide>
+                    <!--Defining transition animation when changing usercontrols-->
+                    <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">
+                        <materialDesign:TransitionerSlide.BackwardWipe>
+                            <materialDesign:SlideOutWipe/>
+                        </materialDesign:TransitionerSlide.BackwardWipe>
+                        <materialDesign:TransitionerSlide.ForwardWipe>
+                            <materialDesign:FadeWipe />
+                        </materialDesign:TransitionerSlide.ForwardWipe>
+                        <!--Defining a transition slide window (switchuser usercontrol)-->
+                        <localSwitch:SwitchUser x:Name="userSwitch"/>
+                    </materialDesign:TransitionerSlide>
 
-                        <materialDesign:TransitionerSlide>
-                            <materialDesign:TransitionerSlide.BackwardWipe>
-                                <materialDesign:CircleWipe/>
-                            </materialDesign:TransitionerSlide.BackwardWipe>
-                            <materialDesign:TransitionerSlide.ForwardWipe>
-                                <materialDesign:SlideWipe Direction="Right"/>
-                            </materialDesign:TransitionerSlide.ForwardWipe>
-                            <Grid x:Name="testGrid">
-                                <Button Width="150" Height="100"
+                    <materialDesign:TransitionerSlide>
+                        <materialDesign:TransitionerSlide.BackwardWipe>
+                            <materialDesign:CircleWipe/>
+                        </materialDesign:TransitionerSlide.BackwardWipe>
+                        <materialDesign:TransitionerSlide.ForwardWipe>
+                            <materialDesign:SlideWipe Direction="Right"/>
+                        </materialDesign:TransitionerSlide.ForwardWipe>
+                        <Grid x:Name="testGrid">
+                            <Button Width="150" Height="100"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                                     Content="Idemo testing"/>
-                            </Grid>
-                        </materialDesign:TransitionerSlide>
-                    </materialDesign:Transitioner>
-                </Grid>
+                        </Grid>
+                    </materialDesign:TransitionerSlide>
+                </materialDesign:Transitioner>
+            </Grid>
 
-                <!--<Button Grid.Column="0" 
+            <!--<Button Grid.Column="0" 
                     Grid.ColumnSpan="2" 
                     Grid.Row="1" 
                     Grid.RowSpan='3'
@@ -95,100 +95,100 @@
                     Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"
                     HorizontalAlignment="Center"/>-->
 
-                <!--Defining a drawerhost for left side drawer-->
-                <materialDesign:DrawerHost HorizontalAlignment="Stretch" 
+            <!--Defining a drawerhost for left side drawer-->
+            <materialDesign:DrawerHost HorizontalAlignment="Stretch" 
                                        VerticalAlignment="Stretch" 
                                        BorderThickness="2" 
                                        BorderBrush="{DynamicResource MaterialDesignDivider}" 
                                        Grid.ColumnSpan="2" 
                                        Grid.RowSpan="3" 
                                        Margin="-2,-2,-3,-2.429">
-                    
-                    <!--Left side drawer content-->
-                    <materialDesign:DrawerHost.LeftDrawerContent>
-                        <StackPanel Margin="0" >
-                            <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                                  ToolTip="Zatvaranje trenutnog menija"
-                                  Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                                  CommandParameter="{x:Static Dock.Left}"
-                                  DockPanel.Dock="Top"
-                                  HorizontalAlignment="Right" Margin="20"
-                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}"/>
 
-                            <Menu >
-                                <MenuItem Header="Home" 
+                <!--Left side drawer content-->
+                <materialDesign:DrawerHost.LeftDrawerContent>
+                    <StackPanel Margin="0" >
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                      ToolTip="Zatvaranje trenutnog menija"
+                                      Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                                      CommandParameter="{x:Static Dock.Left}"
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Right" Margin="20"
+                                      IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}"/>
+
+                        <Menu >
+                            <MenuItem Header="Home" 
                                       Width="230" 
                                       Name="home"
                                       Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                                       Click="home_Click">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Home"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </Menu>
-                            <Menu >
-                                <MenuItem Header="Entertainment" 
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Home"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </Menu>
+                        <Menu >
+                            <MenuItem Header="Entertainment" 
                                       Width="260" 
                                       Name="entertainment_menu"
                                       Click="entertainment_menu_Click"
                                       Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="RobotHappy"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </Menu>
-                            <Separator Margin="10,0,70,0" Height="2"/>
-                            <Menu>
-                                <MenuItem Header="YouTube" 
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="RobotHappy"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </Menu>
+                        <Separator Margin="10,0,70,0" Height="2"/>
+                        <Menu>
+                            <MenuItem Header="YouTube" 
                                       Width="230" 
                                       x:Name="youtube_menu"
                                       Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                                       ToolTip="Youtube" 
                                       Click="youtube_menu_Click"
                                       HorizontalAlignment="Center" >
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Youtube"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </Menu>
-                            <Menu>
-                                <MenuItem x:Name="music_menu" 
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Youtube"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </Menu>
+                        <Menu>
+                            <MenuItem x:Name="music_menu" 
                                           Header="Music" 
                                           Width="230" 
                                           Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                                           Click="music_menu_Click"
                                           ToolTip="Listen to music">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Music"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </Menu>
-                            <Menu >
-                                <MenuItem x:Name="quotes_menu" 
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Music"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </Menu>
+                        <Menu >
+                            <MenuItem x:Name="quotes_menu" 
                                           Header="Quotes" 
                                           ToolTip="Read quotes" 
                                           Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                                           Click="quotes_menu_Click"
                                           Width="230" 
                                           HorizontalAlignment="Center">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="FormatQuoteOpen"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </Menu>
-                            <Menu >
-                                <MenuItem x:Name="movies_menu" 
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="FormatQuoteOpen"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </Menu>
+                        <Menu >
+                            <MenuItem x:Name="movies_menu" 
                                           Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                                           Click="movies_menu_Click"
                                           Header="movies" 
                                           Width="230">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="MoviePlay"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </Menu>
-                            <Separator Margin="10,0,70,0" Height="1"/>
-                            <!--<Menu >
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="MoviePlay"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </Menu>
+                        <Separator Margin="10,0,70,0" Height="1"/>
+                        <!--<Menu >
                             <MenuItem Header="HACCP" ToolTip="HACCP sertifikat" Width="230" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" >
                                 <MenuItem.Icon>
                                     <materialDesign:PackIcon Kind="ViewList"/>
@@ -202,34 +202,34 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                         </Menu>-->
-                        </StackPanel>
-                    </materialDesign:DrawerHost.LeftDrawerContent>
+                    </StackPanel>
+                </materialDesign:DrawerHost.LeftDrawerContent>
 
-                    <!--Left side drawer opener-->
-                    <Grid MinWidth="480" MinHeight="480">
-                        <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="2">
-                            <materialDesign:ColorZone MouseMove="Window_MouseOver" x:Name="colorZoneDrag" Padding="20" materialDesign:ShadowAssist.ShadowDepth="Depth3" Mode="Standard" DockPanel.Dock="Top" BorderBrush="Transparent" Height="86"  >
-                                <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="9" >
-                                    <ToggleButton   Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                <!--Left side drawer opener-->
+                <Grid MinWidth="480" MinHeight="480">
+                    <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="2">
+                        <materialDesign:ColorZone MouseMove="Window_MouseOver" x:Name="colorZoneDrag" Padding="20" materialDesign:ShadowAssist.ShadowDepth="Depth3" Mode="Standard" DockPanel.Dock="Top" BorderBrush="Transparent" Height="86"  >
+                            <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="9" >
+                                <ToggleButton   Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
                                                     ToolTip="Odabir poslova"
                                                     x:Name="MenuToggleButton"
                                                     Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                                                     CommandParameter="{x:Static Dock.Left}" />
 
-                                     <!--Right side popup box-->
-                                    <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" ToolTip="Više opcija"  >
-                                        <StackPanel Width="150" >
-                                            <Button Content="Odjavljivanje"  />
-                                            <Separator/>
-                                            <Button Content="Izlaz" Name="popUpIzlaz" Click="popUpIzlaz_Click"/>
-                                        </StackPanel>
-                                    </materialDesign:PopupBox>
-                                    <TextBlock x:Name="header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="TimesNewRoman"  FontSize="22">MaiApp</TextBlock>
-                                </DockPanel>
-                            </materialDesign:ColorZone>
-                        </DockPanel>
-                    </Grid>
-                </materialDesign:DrawerHost>
-            </Grid>
-        </materialDesign:DialogHost>
+                                <!--Right side popup box-->
+                                <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" ToolTip="Više opcija"  >
+                                    <StackPanel Width="150" >
+                                        <Button Content="Odjavljivanje"  />
+                                        <Separator/>
+                                        <Button Content="Izlaz" Name="popUpIzlaz" Click="popUpIzlaz_Click"/>
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+                                <TextBlock x:Name="header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="TimesNewRoman"  FontSize="22">MaiApp</TextBlock>
+                            </DockPanel>
+                        </materialDesign:ColorZone>
+                    </DockPanel>
+                </Grid>
+            </materialDesign:DrawerHost>
+        </Grid>
+    </materialDesign:DialogHost>
 </Window>
