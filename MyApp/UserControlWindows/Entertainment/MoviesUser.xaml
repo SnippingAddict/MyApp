@@ -18,6 +18,28 @@
         <CommandBinding Command="MediaCommands.Stop" CanExecute="Stop_CanExecute" Executed="Stop_Executed" />
     </UserControl.CommandBindings>
 
+    <!--<UserControl.Resources>
+        <Storyboard x:Key="FadeIn"
+                    Storyboard.TargetName="ControlsFade"
+                    Storyboard.TargetProperty="Opacity">
+            <DoubleAnimation Duration="0:0:0.3" To="1" />
+        </Storyboard>
+        <Storyboard x:Key="FadeOut"
+                    Storyboard.TargetName="ControlsFade"
+                    Storyboard.TargetProperty="Opacity">
+            <DoubleAnimation Duration="0:0:0.3" To="0" />
+        </Storyboard>
+    </UserControl.Resources>
+
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="MouseEnter" SourceName="ControlsFade">
+            <BeginStoryboard Storyboard="{StaticResource FadeIn}" />
+        </EventTrigger>
+        <EventTrigger RoutedEvent="MouseLeave" SourceName="ControlsFade">
+            <BeginStoryboard Storyboard="{StaticResource FadeOut}" />
+        </EventTrigger>
+    </UserControl.Triggers>-->
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -27,34 +49,21 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <Image Source="/MyApp;component/images/UserGrid/movie_background.png" 
-               Stretch="Fill"
-               Grid.RowSpan="2"/>
-
-        <Button x:Name="majmmun"  />
-        <Button x:Name="majmmun2" MouseUp="majmmun2_MouseUp" Margin="0,100,0,0"/>
-
-        <Grid x:Name="controlsGrid" Height="76"  Width="142" Background="#178D32" Canvas.Left="159"  >
-            <Grid.Triggers>
-                <EventTrigger RoutedEvent="MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation 
-                                Storyboard.TargetName="controlsGrid"
-                                Storyboard.TargetProperty="(Grid.Opacity)" 
-                                From="1" To="0" Duration="0:0:3"  />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Grid.Triggers>
-        </Grid>
+        <Rectangle x:Name="Bottom" Opacity="0.7" Grid.RowSpan="2">
+            <Rectangle.Fill>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0" Color="#5e0134" />
+                    <GradientStop Offset="1" Color="#012b5e" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
 
         <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
                 ToolTip="MaterialDesignFloatingActionButton"
                 Grid.Row="0"
                 VerticalAlignment="Top"
                 Margin="0,10,0,0"
-                Background="#ff2b72"
+                Background="#00d0ff"
                 Command="ApplicationCommands.Open"
                 Grid.Column="1"
                 BorderThickness="0"
@@ -73,16 +82,10 @@
                           MediaOpened="Element_MediaOpened" 
                           MediaEnded="Element_MediaEnded"/>
         </Grid>
-        <!--<ffme:MediaElement x:Name="myMediaElement" 
-                           Background="Gray" 
-                           LoadedBehavior="Manual" 
-                           UnloadedBehavior="Manual" 
-                           MediaOpened="Element_MediaOpened" 
-                           MediaEnded="Element_MediaEnded" />-->
 
-
-        <Grid Grid.Row="1"
-              Grid.Column="1">
+        <Grid Grid.Row="1" x:Name="ControlsFade"
+              Grid.Column="1" Background="Transparent" 
+              MouseEnter="ControlsFade_MouseEnter" MouseLeave="ControlsFade_MouseLeave">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -95,30 +98,33 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-
+            <Button Margin="0,20,0,0"
+                    Grid.Column="4"
+                    BorderBrush="Transparent"
+                    Padding="0"
+                    Background="#00d0ff"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}"
+                    BorderThickness="0"
+                    Width="32"
+                    Height="32">
+                <materialDesign:PackIcon Kind="Fullscreen"
+                                         Height="32"
+                                         Width="20"/>
+            </Button>
 
             <Slider Name="timelineSlider"
-                        Margin="0,0,0,30"
-                        Grid.Column="0" Grid.ColumnSpan="4"
-                        Thumb.DragStarted="timelineSlider_DragStarted" 
-                        Thumb.DragCompleted="timelineSlider_DragCompleted" 
-                        ValueChanged="timelineSlider_ValueChanged"
-                        Padding="0"
-                        Width="700"
-                        Focusable="False"
-                        IsTabStop="True"
-                        Foreground="#ff2b72"
-                        Height="36"/>
-
-            <StackPanel VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Grid.Row="0" 
-                        Grid.Column="0" Grid.ColumnSpan="4">
-                <!-- Seek to slider. Ths slider allows you to jump to different parts of the media playback. -->
-            </StackPanel>
-
-            <!--</Border>-->
+                    Margin="0,0,0,30"
+                    Grid.Column="0" Grid.ColumnSpan="4"
+                    Thumb.DragStarted="timelineSlider_DragStarted" 
+                    Thumb.DragCompleted="timelineSlider_DragCompleted" 
+                    ValueChanged="timelineSlider_ValueChanged"
+                    Padding="0"
+                    Value="0.0"
+                    Width="700"
+                    Focusable="False"
+                    IsTabStop="True"
+                    Foreground="#00d0ff"
+                    Height="36"/>
 
             <StackPanel Orientation="Horizontal" Grid.Row="1"
                         HorizontalAlignment="Center"
@@ -134,7 +140,7 @@
                             Height="32"
                             Width="32"
                             Style="{StaticResource MaterialDesignFloatingActionButton}"
-                            Background="#ff0055"
+                            Background="#00d0ff"
                             Padding="0"
                             Margin="0,0,10,0"
                             BorderThickness="0"
@@ -150,7 +156,7 @@
                     <Button Margin="0,0,10,0"
                                 Padding="0"
                                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                                Background="#ff0055"
+                                Background="#00d0ff"
                                 BorderThickness="0"
                                 BorderBrush="Transparent"
                                 Width="32"
@@ -166,7 +172,7 @@
                     <Button Margin="0,0,10,0"
                             BorderBrush="Transparent"
                             Padding="0"
-                            Background="#ff0055"
+                            Background="#00d0ff"
                             Style="{StaticResource MaterialDesignFloatingActionButton}"
                             BorderThickness="0"
                             Width="32"
@@ -214,12 +220,11 @@
                                   Foreground="White"
                                   Click="volumeButton_Click"
                                   Width="32"
-                                  Background="#ff2b72"
+                                  Background="#00d0ff"
                                   Padding="0"
                                   Margin="0,0,10,0"
                                   BorderThickness="1"
                                   Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
-                                  BorderBrush="#ff2b72"
                                   IsChecked="True">
                         <materialDesign:PackIcon Name="volumeIcon" Kind="VolumeHigh"/>
 
@@ -252,7 +257,7 @@
 
             <StackPanel Orientation="Horizontal"
                         Grid.Row="1" 
-                        Margin="0,20,0,0"
+                        Margin="0,20,200,0"
                         HorizontalAlignment="Center"
                         Grid.Column="1" Grid.ColumnSpan="1">
                 <TextBlock Name="lblProgressStatus"
@@ -260,17 +265,8 @@
                            Foreground="#ebebeb"
                            VerticalAlignment="Center">00:00:00</TextBlock>
 
-                <!--<TextBlock Foreground="White" 
-                           Margin="5"  
-                           VerticalAlignment="Center">Speed</TextBlock>
-                <Slider Name="speedRatioSlider"
-                        Foreground="#ff0055"
-                        VerticalAlignment="Center" 
-                        ValueChanged="ChangeMediaSpeedRatio" 
-                        Value="1" Width="70" />-->
-
             </StackPanel>
-
         </Grid>
     </Grid>
+
 </UserControl>

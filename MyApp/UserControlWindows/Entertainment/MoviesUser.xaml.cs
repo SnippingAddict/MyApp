@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -25,12 +26,13 @@ namespace MyApp.UserControlWindows
     public partial class MoviesUser : UserControl, INotifyPropertyChanged
     {
         private bool mediaPlayerIsPlaying = false;
+        private bool mediaPlayerIsPaused = false;
         private bool userIsDraggingSlider = false;
 
         public MoviesUser()
         {
             InitializeComponent();
-
+            InitializePropertyValues();
             //myMediaElement.Source = new Uri(Environment.CurrentDirectory + @"\videoExample.mkv");
             //myMediaElement.Play
 
@@ -41,7 +43,10 @@ namespace MyApp.UserControlWindows
             timer.Start();
         }
 
-            
+        void InitializePropertyValues()
+        {
+            myMediaElement.Volume = (double)volumeSlider.Value;
+        }
 
         /// <summary>Change the volume of the media.</summary> 
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
@@ -52,17 +57,15 @@ namespace MyApp.UserControlWindows
             var sliderVal = volumeSlider.Value;
             //Debug.WriteLine(sliderVal);
 
-            if (sliderVal >= 50 && sliderVal <= 75)
+            if (sliderVal <= 50 && sliderVal > 0)
             {
                 volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeMedium;
-            } else if (sliderVal <= 25 && sliderVal >= 0)
-            {
-                volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeLow;
             }
-            else if (sliderVal == 100 && sliderVal >= 75)
+            else if (sliderVal == 100 && sliderVal >= 50)
             {
                 volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeHigh;
-            } else if (sliderVal == 0)
+            }
+            else if (sliderVal == 0)
             {
                 volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeOff;
             }
@@ -116,43 +119,7 @@ namespace MyApp.UserControlWindows
         /// <summary>
         /// Initialize slider values
         /// </summary>
-        void InitializePropertyValues()
-        {
-            myMediaElement.Volume = (double)volumeSlider.Value;
-        }
-
-        /// <summary>
-        /// Play media.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-           
-        //    InitializePropertyValues();
-        //}
-
-        ///// <summary>
-        ///// Pause media.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void Button_Click_1(object sender, RoutedEventArgs e)
-        //{
-        //    myMediaElement.Pause();
-        //}
-
-        ///// <summary>
-        ///// Stop media.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void Button_Click_2(object sender, RoutedEventArgs e)
-        //{
-        //    // The Stop method stops and resets the media to be played from
-        //    // the beginning.
-        //    myMediaElement.Stop();
-        //}
+        
 
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -189,9 +156,13 @@ namespace MyApp.UserControlWindows
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg;*.mkv)|*.mp3;*.mpg;*.mpeg;*.mkv|All files (*.*)|*.*";
+            openFileDialog.Filter = "Media files (*.mp3;*.mp4;*.mpg;*.mpeg;*.mkv)|*.mp3;*.mp4;*.mpg;*.mpeg;*.mkv|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() != null)
                 myMediaElement.Source = new Uri(openFileDialog.FileName);
+
+            myMediaElement.Play();
+            mediaPlayerIsPlaying = true;
+            controlsFadeOut();
             myMediaElement.Visibility = Visibility.Visible;
         }
 
@@ -204,6 +175,7 @@ namespace MyApp.UserControlWindows
         {
             myMediaElement.Play();
             mediaPlayerIsPlaying = true;
+            mediaPlayerIsPaused = false;
         }
 
         private void Pause_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -214,6 +186,7 @@ namespace MyApp.UserControlWindows
         private void Pause_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             myMediaElement.Pause();
+            mediaPlayerIsPaused = true;
         }
 
         private void Stop_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -225,10 +198,15 @@ namespace MyApp.UserControlWindows
         {
             myMediaElement.Stop();
             mediaPlayerIsPlaying = false;
+            myMediaElement.Visibility = Visibility.Collapsed;
         }
 
         private void volumeButton_Click(object sender, RoutedEventArgs e)
         {
+            if (volumeButton.IsChecked == false)
+                myMediaElement.Volume = 0;
+            else
+                myMediaElement.Volume = 100;
 
         }
 
@@ -255,6 +233,53 @@ namespace MyApp.UserControlWindows
         {
             Visibily = false;
 
+        }
+
+        //Needs more code optimizing, pointless repeating
+        private void controlsFadeOut()
+        {
+            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
+            Storyboard myStoryboard = new Storyboard();
+
+            myDoubleAnimation.To = 0;
+            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(90.0));
+            Storyboard.SetTargetName(myDoubleAnimation, ControlsFade.Name);
+            Storyboard.SetTargetProperty(myDoubleAnimation,
+                new PropertyPath(OpacityProperty));
+
+            myStoryboard.Children.Add(myDoubleAnimation);
+            myStoryboard.Begin(this);
+
+        }
+
+        //Needs more code optimizing, pointless repeating
+        private void controlsFadeIn()
+        {
+            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
+            Storyboard myStoryboard = new Storyboard();
+
+            myDoubleAnimation.To = 1;
+            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(90.0));
+            Storyboard.SetTargetName(myDoubleAnimation, ControlsFade.Name);
+            Storyboard.SetTargetProperty(myDoubleAnimation,
+                new PropertyPath(OpacityProperty));
+
+            myStoryboard.Children.Add(myDoubleAnimation);
+            myStoryboard.Begin(this);
+
+        }
+
+        private void ControlsFade_MouseEnter(object sender, MouseEventArgs e)
+        {
+            controlsFadeIn();
+        }
+
+        private void ControlsFade_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (mediaPlayerIsPlaying == true && mediaPlayerIsPaused == false)
+            {
+                controlsFadeOut();
+            }
         }
     }
 }
