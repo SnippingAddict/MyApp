@@ -25,29 +25,28 @@ namespace MyApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// </summary
     public partial class MainWindow : Window, INotifyPropertyChanged
-    {         
+    {
+
 
         public static Visibility checkEntertainment;
         public static Visibility checkEntertainment1;
 
+        private TimeSpan trackTime;
+        public TimeSpan TrackTime
+        {
+            get { return trackTime; }
+            set
+            {
+                trackTime = value;
+                Debug.WriteLine(TrackTime + "idemosasd");
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
         }
-
-        public int Counter
-        {
-            get { return (int)GetValue(StateProperty); }
-            set
-            {
-                SetValue(StateProperty, value);
-                OnNotifyPropertyChanged("Counter");
-            }
-        }
-
-        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("CheckEntertainment", typeof(int), typeof(MainWindow));
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -72,6 +71,8 @@ namespace MyApp
             }
         }
 
+        //Hamburger menu item commands
+        #region
         private void popUpIzlaz_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
@@ -79,18 +80,21 @@ namespace MyApp
 
         private void youtube_menu_Click(object sender, RoutedEventArgs e)
         {
+            homeUser.Visibility = Visibility.Collapsed;
             textTransition.SelectedIndex = 1;
             userSwitch.Vis = 1;
         }
 
         private void music_menu_Click(object sender, RoutedEventArgs e)
         {
+            homeUser.Visibility = Visibility.Collapsed;
             textTransition.SelectedIndex = 1;
             userSwitch.Vis = 2;
         }
 
         private void quotes_menu_Click(object sender, RoutedEventArgs e)
         {
+            homeUser.Visibility = Visibility.Collapsed;
             textTransition.SelectedIndex = 1;
             userSwitch.Vis = 3;
         }
@@ -99,10 +103,12 @@ namespace MyApp
         {
             textTransition.SelectedIndex = 1;
             userSwitch.Vis = 4;
+            homeUser.Visibility = Visibility.Collapsed;
         }
 
         private void home_Click(object sender, RoutedEventArgs e)
         {
+            homeUser.Visibility = Visibility.Visible;
             textTransition.SelectedIndex = 0;
             userSwitch.Vis = 0;
         }
@@ -110,10 +116,24 @@ namespace MyApp
         private void entertainment_menu_Click(object sender, RoutedEventArgs e)
         {
             userSwitch.Vis = 0;
-            Debug.WriteLine(userSwitch.Vis);
+            homeUser.Visibility = Visibility.Collapsed;
             textTransition.SelectedIndex = 1;
         }
+        #endregion  
+    }
 
-
+    //Kind of a f you class, to something stupid but w.e
+    public class TrackTimeHelp
+    {
+        private TimeSpan trackTime;
+        public TimeSpan TrackTime
+        {
+            get { return trackTime; }
+            set
+            {
+                trackTime = value;
+                Debug.WriteLine(TrackTime + "idemosasd");
+            }
+        }
     }
 }

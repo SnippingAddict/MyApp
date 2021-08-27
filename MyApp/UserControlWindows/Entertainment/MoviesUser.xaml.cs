@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -25,43 +28,40 @@ namespace MyApp.UserControlWindows
     /// </summary>
     public partial class MoviesUser : UserControl, INotifyPropertyChanged
     {
+        //Some declarations
         private bool mediaPlayerIsPlaying = false;
         private bool mediaPlayerIsPaused = false;
         private bool userIsDraggingSlider = false;
+        private DispatcherTimer timer = new DispatcherTimer();
+        public bool movieActive;
+        public int count;
+        private Timer aTimer;
+
 
         public MoviesUser()
         {
             InitializeComponent();
-            InitializePropertyValues();
-            //myMediaElement.Source = new Uri(Environment.CurrentDirectory + @"\videoExample.mkv");
-            //myMediaElement.Play
 
-
-            DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
         }
 
-        void InitializePropertyValues()
-        {
-            myMediaElement.Volume = (double)volumeSlider.Value;
-        }
+        #region Code used for movie controls
 
         /// <summary>Change the volume of the media.</summary> 
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
         {
 
             myMediaElement.Volume = (double)volumeSlider.Value;
-            //OnNotifyPropertyChanged("volumeIcon");
             var sliderVal = volumeSlider.Value;
-            //Debug.WriteLine(sliderVal);
+            Debug.WriteLine(myMediaElement.Volume);
 
-            if (sliderVal <= 50 && sliderVal > 0)
+            if (sliderVal <= 0.5 && sliderVal > 0)
             {
                 volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeMedium;
             }
-            else if (sliderVal == 100 && sliderVal >= 50)
+            else if (sliderVal == 1 && sliderVal >= 0.5)
             {
                 volumeIcon.Kind = MaterialDesignThemes.Wpf.PackIconKind.VolumeHigh;
             }
@@ -71,56 +71,25 @@ namespace MyApp.UserControlWindows
             }
         }
 
-        public CornerRadius CornerRadius { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Check for property event for the given property name (string p)
-        /// </summary>
-        private void OnNotifyPropertyChanged(string p)
+        //Volume toggle button
+        private void volumeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (PropertyChanged != null)
+            if (volumeButton.IsChecked == false)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(p));
-
+                myMediaElement.Volume = 0;
+                volumeSlider.Value = 0;
             }
-        }
+            else
+            {
+                volumeSlider.Value = 1;
+                myMediaElement.Volume = 1;
+            }
 
-        /// <summary>
-        /// When the media opens, initialize the "Seek To" slider maximum value
-        /// to the total number of miliseconds in the length of the media clip.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Element_MediaOpened(object sender, EventArgs e)
-        {
-            timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
-        }
-
-        /// <summary>
-        /// When the media playback is finished. Stop() the media to seek to media start.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Element_MediaEnded(object sender, EventArgs e)
-        {
-            myMediaElement.Stop();
-        }
-
-        // Jump to different parts of the media (seek to).
-        private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
-        {
-            int SliderValue = (int)timelineSlider.Value;
-            TimeSpan ts = new TimeSpan(0, 0, 0, 0, SliderValue);
-            myMediaElement.Position = ts;
         }
 
         /// <summary>
         /// Initialize slider values
         /// </summary>
-        
-
         private void timer_Tick(object sender, EventArgs e)
         {
             if ((myMediaElement.Source != null) && (myMediaElement.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
@@ -146,24 +115,40 @@ namespace MyApp.UserControlWindows
         private void timelineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             lblProgressStatus.Text = TimeSpan.FromSeconds(timelineSlider.Value).ToString(@"hh\:mm\:ss");
+            //int SliderValue = (int)timelineSlider.Value;
+            //TimeSpan ts = new TimeSpan(0, 0, 0, 0, SliderValue);
+            //myMediaElement.Position = ts;
         }
 
+        //Button commands
         private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
+        //Open file search dialog
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Media files (*.mp3;*.mp4;*.mpg;*.mpeg;*.mkv)|*.mp3;*.mp4;*.mpg;*.mpeg;*.mkv|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() != null)
+            if (openFileDialog.ShowDialog() == true)
+            {
                 myMediaElement.Source = new Uri(openFileDialog.FileName);
+                if (myMediaElement.Source != null)
+                {
+                    mediaPlayerIsPlaying = true;
+                    myMediaElement.Play();
+                }
+                Debug.WriteLine(myMediaElement.Source);
+            }
 
-            myMediaElement.Play();
-            mediaPlayerIsPlaying = true;
-            controlsFadeOut();
-            myMediaElement.Visibility = Visibility.Visible;
+            if (mediaPlayerIsPlaying == true)
+            {
+                fScreenMode();
+                controlsFadeOut();
+                myMediaElement.Visibility = Visibility.Visible;
+            }
+
         }
 
         private void Play_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -175,6 +160,7 @@ namespace MyApp.UserControlWindows
         {
             myMediaElement.Play();
             mediaPlayerIsPlaying = true;
+            myMediaElement.Visibility = Visibility.Visible;
             mediaPlayerIsPaused = false;
         }
 
@@ -199,42 +185,10 @@ namespace MyApp.UserControlWindows
             myMediaElement.Stop();
             mediaPlayerIsPlaying = false;
             myMediaElement.Visibility = Visibility.Collapsed;
+            timelineSlider.Value = 0;
         }
 
-        private void volumeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (volumeButton.IsChecked == false)
-                myMediaElement.Volume = 0;
-            else
-                myMediaElement.Volume = 100;
-
-        }
-
-        public bool Visibily
-        {
-            get { return (bool)GetValue(VisibilyProperty); }
-            set { SetValue(VisibilyProperty, value); }
-        }
-
-        public static readonly DependencyProperty VisibilyProperty =
-            DependencyProperty.Register("Visibily", typeof(bool), typeof(MoviesUser), new PropertyMetadata(true));
-
-        private void majmmun_Click(object sender, RoutedEventArgs e)
-        {
-            Visibily = true;
-        }
-
-        private void majmmun2_Click(object sender, RoutedEventArgs e)
-        {
-            Visibily = false;
-        }
-
-        private void majmmun2_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Visibily = false;
-
-        }
-
+        //Used for movie controls fade animation
         //Needs more code optimizing, pointless repeating
         private void controlsFadeOut()
         {
@@ -281,5 +235,169 @@ namespace MyApp.UserControlWindows
                 controlsFadeOut();
             }
         }
+
+        #endregion
+
+
+        #region Movie fullscreen control, was fun
+        //
+        //  The way i made the fullscreen option is autistic.
+        //  It works, however it needs a lot more polishing and maybe even a better way of going in and out of fullscreen.
+        //  Would love to explain it all but im too lazy, if you're interested in understanding this just focus on mediaelement and timelineSlider timespan
+        //
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private Window _fullScreenWindow;
+        private DependencyObject _originalParent;
+
+        //Affects the usual MovieUser background
+        public void fScreenMode()
+        {
+            rectangleGrid.Background = Brushes.Black;
+            movieRectangle.Visibility = Visibility.Collapsed;
+            openButton.Visibility = Visibility.Collapsed;
+        }
+
+        private TimeSpan trackTime;
+
+        private void valueTransfer()
+        {
+            MainWindow mW = new MainWindow();
+            myMediaElement.Position = TimeSpan.FromSeconds(timelineSlider.Value);
+            trackTime = TimeSpan.FromSeconds(timelineSlider.Value);
+        }
+
+        //Big win with this option
+        //Transferring the user control to another parent window and going fullscreen
+        private void FullScreenButton_Click(object sender, RoutedEventArgs e)
+        {
+            var rec = movieRectangle;
+
+            if (_fullScreenWindow == null) //go fullscreen
+            {
+                if (mediaPlayerIsPlaying == true)
+                {
+                    fScreenMode();
+                }
+                _fullScreenWindow = new Window(); //create full screen window
+                _originalParent = movieUserControl.Parent;
+                RemoveChildHelper.RemoveChild(_originalParent, this); //remove the user control from current parent
+                _fullScreenWindow.Content = this; //add the user control to full screen window
+                _fullScreenWindow.WindowStyle = WindowStyle.None;
+                _fullScreenWindow.WindowState = WindowState.Maximized;
+                _fullScreenWindow.ResizeMode = ResizeMode.NoResize;
+                _fullScreenWindow.Show();
+                valueTransfer();
+            }
+            else //exit fullscreen
+            {
+                valueTransfer();
+                if (mediaPlayerIsPlaying != true)
+                {
+                    openButton.Visibility = Visibility.Visible;
+                    rec.Visibility = Visibility.Visible;
+                }
+                var parent = Parent;
+                RemoveChildHelper.RemoveChild(parent, this);
+                RemoveChildHelper.AddToParent(movieUserControl, _originalParent);
+
+                _fullScreenWindow.Close();
+                _fullScreenWindow = null;
+
+                //Timer for timedevent
+                aTimer = new Timer();
+                aTimer.Interval = 50;
+                aTimer.Elapsed += OnTimedEvent;
+                aTimer.Enabled = true;
+            }
+        }
+
+        //Begins the movie after the user leaves fullscreen
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            Debug.WriteLine(trackTime);
+            this.Dispatcher.Invoke(() =>
+            {
+                //cannot be changed without Dispatcher.Invoke, threads seem pretty fun
+                //Link to issue "https://stackoverflow.com/questions/9732709/the-calling-thread-cannot-access-this-object-because-a-different-thread-owns-it"
+
+                myMediaElement.Position = trackTime;
+                timelineSlider.Value = myMediaElement.Position.TotalSeconds;
+            });
+            aTimer.Enabled = false;
+        }
+        #endregion
+
     }
+
+    //Helper class for removing child from parent
+    public static class RemoveChildHelper
+    {
+        //Add child to parent method
+        public static void AddToParent(this UIElement child, DependencyObject parent, int? index = null)
+        {
+            if (parent == null)
+                return;
+
+            if (parent is ItemsControl itemsControl)
+                if (index == null)
+                    itemsControl.Items.Add(child);
+                else
+                    itemsControl.Items.Insert(index.Value, child);
+            else if (parent is Panel panel)
+                if (index == null)
+                    panel.Children.Add(child);
+                else
+                    panel.Children.Insert(index.Value, child);
+            else if (parent is Decorator decorator)
+                decorator.Child = child;
+            else if (parent is ContentPresenter contentPresenter)
+                contentPresenter.Content = child;
+            else if (parent is ContentControl contentControl)
+                contentControl.Content = child;
+        }
+
+        //Remove child from parent method
+        public static void RemoveChild(this DependencyObject parent, UIElement child)
+        {
+            var panel = parent as Panel;
+            if (panel != null)
+            {
+                panel.Children.Remove(child);
+                return;
+            }
+
+            var decorator = parent as Decorator;
+            if (decorator != null)
+            {
+                if (decorator.Child == child)
+                {
+                    decorator.Child = null;
+                }
+                return;
+            }
+
+            var contentPresenter = parent as ContentPresenter;
+            if (contentPresenter != null)
+            {
+                if (contentPresenter.Content == child)
+                {
+                    contentPresenter.Content = null;
+                }
+                return;
+            }
+
+            var contentControl = parent as ContentControl;
+            if (contentControl != null)
+            {
+                if (contentControl.Content == child)
+                {
+                    contentControl.Content = null;
+                }
+                return;
+            }
+
+        }
+    }
+
 }

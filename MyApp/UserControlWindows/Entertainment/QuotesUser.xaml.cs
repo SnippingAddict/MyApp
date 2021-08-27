@@ -20,6 +20,7 @@ namespace MyApp.UserControlWindows
     /// </summary>
     public partial class QuotesUser : UserControl
     {
+
         public QuotesUser()
         {
             InitializeComponent();

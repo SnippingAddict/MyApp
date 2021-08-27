@@ -17,7 +17,12 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
         xmlns:localSwitch="clr-namespace:MyApp.UserControlWindows.Entertainment"
-        Title="MainWindow" MinHeight="600" MinWidth="950" MaxWidth="950" MaxHeight="650" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Width="830" Height="544" >
+        Title="MainWindow"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True" 
+        Width="950" 
+        Height="600" >
 
     <!--Click and drag mogucnost-->
     <Window.BindingGroup>
@@ -29,7 +34,8 @@
     </Window.Resources>
 
     <!--creating dialoghost for dialog window popups-->
-    <materialDesign:DialogHost x:Name="MainDialogHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <materialDesign:DialogHost x:Name="MainDialogHost" HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Stretch">
 
         <Grid  Background="#2b648c">
             <Grid.ColumnDefinitions>
@@ -43,11 +49,14 @@
             </Grid.RowDefinitions>
 
             <!--Adding a material design transitioner-->
-            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan='3'>
-                <materialDesign:Transitioner VerticalAlignment="Center"
-                                             HorizontalAlignment="Center"
+            <Grid Grid.Column="0" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan='3'>
+                <materialDesign:Transitioner VerticalAlignment="Stretch"
+                                             HorizontalAlignment="Stretch"
                                              x:Name="textTransition"
                                              SelectedIndex="0"
+                                             Padding="0"
                                              AutoApplyTransitionOrigins="True">
 
                     <!--First user control da shows when MainWindow starts, first user control for transitioner-->
@@ -64,8 +73,9 @@
                         <materialDesign:TransitionerSlide.ForwardWipe>
                             <materialDesign:FadeWipe />
                         </materialDesign:TransitionerSlide.ForwardWipe>
-                        <!--Defining a transition slide window (switchuser usercontrol)-->
-                        <localSwitch:SwitchUser x:Name="userSwitch"/>
+                        <!--Defining a transition slide window (switchuser usercontrol !!ONE WAY TO SOURCE BABY AYYY!!)-->
+                        <localSwitch:SwitchUser Padding="0"
+                                                 x:Name="userSwitch" />
                     </materialDesign:TransitionerSlide>
 
                     <materialDesign:TransitionerSlide>
@@ -85,20 +95,11 @@
                 </materialDesign:Transitioner>
             </Grid>
 
-            <!--<Button Grid.Column="0" 
-                    Grid.ColumnSpan="2" 
-                    Grid.Row="1" 
-                    Grid.RowSpan='3'
-                    VerticalAlignment="Center"
-                    Width="50"
-                    Height="50"
-                    Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"
-                    HorizontalAlignment="Center"/>-->
-
             <!--Defining a drawerhost for left side drawer-->
             <materialDesign:DrawerHost HorizontalAlignment="Stretch" 
                                        VerticalAlignment="Stretch" 
                                        BorderThickness="2" 
+                                       x:Name="HostDrawer"
                                        BorderBrush="{DynamicResource MaterialDesignDivider}" 
                                        Grid.ColumnSpan="2" 
                                        Grid.RowSpan="3" 
@@ -206,13 +207,14 @@
                 </materialDesign:DrawerHost.LeftDrawerContent>
 
                 <!--Left side drawer opener-->
-                <Grid MinWidth="480" MinHeight="480">
+                <Grid MinWidth="480" MinHeight="480" Visibility="Visible" x:Name="headerGrid">
                     <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="2">
-                        <materialDesign:ColorZone MouseMove="Window_MouseOver" x:Name="colorZoneDrag" Padding="20" materialDesign:ShadowAssist.ShadowDepth="Depth3" Mode="Standard" DockPanel.Dock="Top" BorderBrush="Transparent" Height="86"  >
-                            <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="9" >
+                        <materialDesign:ColorZone MouseMove="Window_MouseOver" 
+                                                  x:Name="colorZoneDrag" Padding="20" materialDesign:ShadowAssist.ShadowDepth="Depth3" Mode="Standard" DockPanel.Dock="Top" BorderBrush="Transparent" Height="86"  >
+                            <DockPanel Grid.RowSpan="2" Grid.ColumnSpan="9">
                                 <ToggleButton   Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
                                                     ToolTip="Odabir poslova"
-                                                    x:Name="MenuToggleButton"
+                                                    Name="MenuToggleButton"
                                                     Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                                                     CommandParameter="{x:Static Dock.Left}" />
 

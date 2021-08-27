@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:MainWin="clr-namespace:MyApp"
              xmlns:Image="clr-namespace:MyApp"
+             x:Name="switchUserControl"
              xmlns:local="clr-namespace:MyApp.UserControlWindows.Entertainment"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:local1="clr-namespace:MyApp.UserControlWindows"
-             mc:Ignorable="d" Height="513.6" Width="950.35"
+             mc:Ignorable="d" Height="513" Width="950"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <Grid>

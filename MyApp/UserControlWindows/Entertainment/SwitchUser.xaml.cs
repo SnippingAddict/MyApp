@@ -23,10 +23,8 @@ namespace MyApp.UserControlWindows.Entertainment
     public partial class SwitchUser : UserControl, INotifyPropertyChanged
     {
 
-
         public static Visibility userVisibility;
 
-        Switch switchControl = new Switch();
         public SwitchUser()
         {
             InitializeComponent();
@@ -44,6 +42,31 @@ namespace MyApp.UserControlWindows.Entertainment
         }
 
         public static readonly DependencyProperty StateProperty = DependencyProperty.Register("Vis", typeof(int), typeof(SwitchUser));
+
+        public double WinH
+        {
+            get { return (double)this.GetValue(StateProperty1); }
+            set
+            {
+                this.SetValue(StateProperty1, value);
+                OnNotifyPropertyChanged("WinH");
+            }
+        }
+
+        public static readonly DependencyProperty StateProperty1 = DependencyProperty.Register("WinH", typeof(double), typeof(SwitchUser));
+        
+        public double WinW
+        {
+            get { return (double)this.GetValue(StateProperty2); }
+            set
+            {
+                this.SetValue(StateProperty2, value);
+                OnNotifyPropertyChanged("WinW");
+                Debug.WriteLine("Prover WinW : " + WinW);
+            }
+        }
+
+        public static readonly DependencyProperty StateProperty2 = DependencyProperty.Register("WinW", typeof(double), typeof(SwitchUser));
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -71,13 +94,16 @@ namespace MyApp.UserControlWindows.Entertainment
         //    movieGif.Position = TimeSpan.FromMilliseconds(1);
         //}
 
+        //Code for usercontrol visibility
+        #region
         /// <summary>
         /// Change UserControl visibility based on param
         /// </summary>
         /// <param name="number"></param>
+
         public void checkUserControl(int number)
         {
-            Debug.WriteLine(Vis);
+
             if (number == 0)
             {
                 YoutubeUser.Visibility = Visibility.Collapsed;
@@ -142,6 +168,36 @@ namespace MyApp.UserControlWindows.Entertainment
         {
             Vis = 4;
             checkUserControl(Vis);
+        }
+        #endregion 
+
+
+        private bool fullscreen;
+
+        public bool Fullscreen
+        {
+            get { return fullscreen; }
+            set
+            {
+                fullscreen = value;
+                Debug.WriteLine("Second line" + Fullscreen);
+                OnNotifyPropertyChanged("Fullscreen");
+                Console.WriteLine(Height);
+            }
+        }
+
+        public void changeToFullscreen()
+        {
+            if (Fullscreen == true)
+            {
+                WinW = 1400;
+                WinH = 700;
+            }
+            else if (Fullscreen == false)
+            {
+                WinW = 950;
+                WinH = 513;
+            }
         }
     }
 }
