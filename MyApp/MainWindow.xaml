@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local1="clr-namespace:MyApp.UserControlWindows"
         xmlns:HomeScreen = "clr-namespace:MyApp.UserControlWindows.HomeScreen"
+        xmlns:Health ="clr-namespace:MyApp.UserControlWindows.Health"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -48,6 +49,11 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
 
+            <HomeScreen:HomeUserControl x:Name="homeUser" 
+                                                HorizontalAlignment="stretch" 
+                                                VerticalAlignment="stretch"
+                                                Visibility="Collapsed"/>
+            
             <!--Adding a material design transitioner-->
             <Grid Grid.Column="0" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
@@ -60,10 +66,11 @@
                                              AutoApplyTransitionOrigins="True">
 
                     <!--First user control da shows when MainWindow starts, first user control for transitioner-->
-                    <HomeScreen:HomeUserControl x:Name="homeUser" 
-                                                    HorizontalAlignment="Stretch" 
-                                                    VerticalAlignment="Stretch"
-                                                    Visibility="Visible"/>
+
+                    <Health:HealthMain x:Name="HealthUser"
+                                       HorizontalAlignment="Stretch" 
+                                       VerticalAlignment="Stretch"
+                                       Visibility="Visible"/>
 
                     <!--Defining transition animation when changing usercontrols-->
                     <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect ExpandIn}">

@@ -26,7 +26,7 @@ namespace MyApp.UserControlWindows
     /// <summary>
     /// Interaction logic for MoviesUser.xaml
     /// </summary>
-    public partial class MoviesUser : UserControl, INotifyPropertyChanged
+    public partial class MoviesUser : UserControl
     {
         //Some declarations
         private bool mediaPlayerIsPlaying = false;
@@ -245,7 +245,6 @@ namespace MyApp.UserControlWindows
         //  It works, however it needs a lot more polishing and maybe even a better way of going in and out of fullscreen.
         //  Would love to explain it all but im too lazy, if you're interested in understanding this just focus on mediaelement and timelineSlider timespan
         //
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private Window _fullScreenWindow;
         private DependencyObject _originalParent;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyApp.UserControlWindows.Health;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,9 +14,7 @@ namespace MyApp
     /// </summary>
     public partial class App : Application
     {
-        public App() : base()
-        {
-            Unosquare.FFME.Library.FFmpegDirectory = @"c:\ffmpeg";
-        }
+       
+
     }
 }
