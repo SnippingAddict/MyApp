@@ -1,6 +1,7 @@
 ﻿using MyApp.HelperClasses;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace MyApp.UserControlWindows.Health.Counter
         private CalculateModel _currentItem;
         private ICommand _getItemCommand;
         private ICommand _saveItemCommand;
+        List<CalculateModel> items = new List<CalculateModel>();
 
         #region Public Properties/Commands
 
@@ -79,18 +81,13 @@ namespace MyApp.UserControlWindows.Health.Counter
 
         private void GetItem()
         {
-            // You should get the product from the database
-            // but for now we'll just return a new object
-            CalculateModel p = new CalculateModel();
-            p.ItemId = ItemId;
-            p.ItemName = "Test Product";
-            p.Calories = 10;
-            CurrentItem = p;
+            items = SQLiteDataAccess.LoadItems();
+            CurrentItem = items[ItemId-1];
         }
 
         private void SaveItem()
         {
-            // You would implement your Product save here
+            SQLiteDataAccess.SaveItem(CurrentItem);
         }
 
         #endregion

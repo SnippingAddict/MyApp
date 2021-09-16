@@ -11,7 +11,7 @@ namespace MyApp.UserControlWindows.Health.Counter
     {
         private int _itemId;
         private string _itemName;
-        private int _calories;
+        private int _caloriesPer100;
         private int _totalCalories;
         public int _weight;
 
@@ -54,15 +54,15 @@ namespace MyApp.UserControlWindows.Health.Counter
             }
         }
 
-        public int Calories
+        public int CaloriesPer100
         {
-            get { return _calories; }
+            get { return _caloriesPer100; }
             set
             {
-                if (value != _calories)
+                if (value != _caloriesPer100)
                 {
-                    _calories = value;
-                    OnPropertyChanged("Calories");
+                    _caloriesPer100 = value;
+                    OnPropertyChanged("CaloriesPer100");
                 }
             }
         }

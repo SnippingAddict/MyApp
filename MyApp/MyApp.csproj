@@ -67,6 +67,7 @@
       <HintPath>..\packages\Microsoft.Toolkit.Wpf.UI.XamlHost.6.1.2\lib\net462\Microsoft.Toolkit.Wpf.UI.XamlHost.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
@@ -97,6 +98,7 @@
     </ApplicationDefinition>
     <Compile Include="HelperClasses\ObservableObject.cs" />
     <Compile Include="HelperClasses\RelayCommand.cs" />
+    <Compile Include="SQLiteDataAccess.cs" />
     <Compile Include="UserControlWindows\Entertainment\MoviesUser.xaml.cs">
       <DependentUpon>MoviesUser.xaml</DependentUpon>
     </Compile>
